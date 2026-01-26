@@ -1,0 +1,88 @@
+{
+  "folders": [
+    {
+      "path": "backend",
+      "name": "Backend (Node.js/Express)"
+    },
+    {
+      "path": "frontend",
+      "name": "Frontend (React)"
+    }
+  ],
+  "settings": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "editor.indentSize": 2,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.rulers": [80, 100],
+    "files.exclude": {
+      "**/.git": true,
+      "**/.DS_Store": true,
+      "**/node_modules": true
+    },
+    "files.watcherExclude": {
+      "**/.git/objects/**": true,
+      "**/.git/subtree-cache/**": true,
+      "**/node_modules/**": true,
+      "**/.next": true
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "dist": true,
+      "build": true,
+      ".next": true
+    },
+    "terminal.integrated.env.windows": {
+      "NODE_ENV": "development"
+    },
+    "terminal.integrated.env.linux": {
+      "NODE_ENV": "development"
+    },
+    "terminal.integrated.env.osx": {
+      "NODE_ENV": "development"
+    },
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[jsx]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[markdown]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.wordWrap": "on"
+    },
+    "git.ignoreLimitWarning": true
+  },
+  "extensions": {
+    "recommendations": [
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint",
+      "mongodb.mongodb-vscode",
+      "ES7+react/react-redux/react-native snippets",
+      "msjsdiag.debugger-for-chrome"
+    ]
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Backend (Node.js)",
+        "type": "node",
+        "request": "launch",
+        "program": "${workspaceFolder:Backend (Node.js/Express)}/server.js",
+        "restart": true,
+        "console": "integratedTerminal",
+        "env": {
+          "NODE_ENV": "development"
+        }
+      }
+    ]
+  }
+}
