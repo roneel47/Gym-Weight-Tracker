@@ -300,14 +300,14 @@
   ```
 
 #### 2.2 Frontend - API Configuration
-- [ ] Create axios instance (services/api.js):
-  - [ ] Set base URL to backend (http://localhost:5000/api)
-  - [ ] Add request interceptor to attach JWT token
-  - [ ] Add response interceptor to handle errors
-  - [ ] Export configured axios instance
+- [x] Create axios instance (services/api.js):
+  - [x] Set base URL to backend (http://localhost:5000/api)
+  - [x] Add request interceptor to attach JWT token
+  - [x] Add response interceptor to handle errors
+  - [x] Export configured axios instance
   
-- [ ] Create .env file:
-  - [ ] REACT_APP_API_URL=http://localhost:5000
+- [x] Create .env file:
+  - [x] REACT_APP_API_URL=http://localhost:5000/api
 
 #### 2.3 Frontend - Authentication Context & Services
 - [ ] Create AuthContext (context/AuthContext.js):
