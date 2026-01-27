@@ -422,13 +422,15 @@
 ### Week 3: Daily Log & Workout Log Features
 
 #### 3.1 Frontend - Daily Log Service
-- [ ] Create dailyLogService (services/dailyLogService.js):
-  - [ ] createDailyLog(data)
-  - [ ] getAllDailyLogs(page, limit)
-  - [ ] getDailyLogByDate(date)
-  - [ ] updateDailyLog(id, data)
-  - [ ] deleteDailyLog(id)
-  - [ ] Handle API errors with try-catch
+- [x] Create dailyLogService (services/dailyLogService.js):
+  - [x] createDailyLog(data)
+  - [x] getAllDailyLogs(page, limit)
+  - [x] getDailyLogByDate(date)
+  - [x] updateDailyLog(id, data)
+  - [x] deleteDailyLog(id)
+  - [x] Handle API errors with try-catch
+
+**Status:** ✅ Complete - All CRUD operations with error handling via axios interceptors
 
 #### 3.2 Frontend - Daily Log Form Component
 - [ ] Create DailyLogForm (components/forms/DailyLogForm.jsx):

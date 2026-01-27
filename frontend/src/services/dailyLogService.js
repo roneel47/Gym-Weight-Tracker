@@ -18,6 +18,17 @@ export const getDailyLog = async (id) => {
   return response.data;
 };
 
+export const getDailyLogByDate = async (date) => {
+  const response = await api.get('/daily-logs', {
+    params: {
+      startDate: date,
+      endDate: date,
+      limit: 1,
+    },
+  });
+  return response.data.logs && response.data.logs.length > 0 ? response.data.logs[0] : null;
+};
+
 export const updateDailyLog = async (id, logData) => {
   const response = await api.put(`/daily-logs/${id}`, logData);
   return response.data;
