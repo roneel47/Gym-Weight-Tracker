@@ -371,49 +371,51 @@
 **Status:** ✅ Complete - Full routing with auth guards and shared layout
 
 #### 2.6 Frontend - Common Components
-- [ ] Create Navbar component (components/common/Navbar.jsx):
-  - [ ] Logo and app name
-  - [ ] Navigation links (Dashboard, Daily Log, Workout Log, etc.)
-  - [ ] User profile dropdown
-  - [ ] Logout button
-  - [ ] Mobile responsive (hamburger menu)
+- [x] Create Navbar component (components/common/Navbar.jsx):
+  - [x] Logo and app name
+  - [x] Navigation links (Dashboard, Daily Log, Workout Log, etc.)
+  - [x] User profile dropdown
+  - [x] Logout button
+  - [x] Mobile responsive (hamburger menu)
   
-- [ ] Create Sidebar component (components/common/Sidebar.jsx):
-  - [ ] Vertical navigation menu
-  - [ ] Active route highlighting
-  - [ ] Icons for each section
-  - [ ] Collapsible on mobile
+- [x] Create Sidebar component (components/common/Sidebar.jsx):
+  - [x] Vertical navigation menu
+  - [x] Active route highlighting
+  - [x] Icons for each section
+  - [x] Collapsible on mobile
   
-- [ ] Create Button component (components/common/Button.jsx):
-  - [ ] Variants: primary, secondary, danger
-  - [ ] Sizes: sm, md, lg
-  - [ ] Loading state
-  - [ ] Disabled state
-  - [ ] TailwindCSS styled (matches DRD)
+- [x] Create Button component (components/common/Button.jsx):
+  - [x] Variants: primary, secondary, danger
+  - [x] Sizes: sm, md, lg
+  - [x] Loading state
+  - [x] Disabled state
+  - [x] TailwindCSS styled (matches DRD)
   
-- [ ] Create Input component (components/common/Input.jsx):
-  - [ ] Types: text, number, date
-  - [ ] Validation states (error, success)
-  - [ ] Label and helper text
-  - [ ] Icon support
-  - [ ] TailwindCSS styled
+- [x] Create Input component (components/common/Input.jsx):
+  - [x] Types: text, number, date
+  - [x] Validation states (error, success)
+  - [x] Label and helper text
+  - [x] Icon support
+  - [x] TailwindCSS styled
   
-- [ ] Create Checkbox component (components/common/Checkbox.jsx):
-  - [ ] Controlled component
-  - [ ] Label support
-  - [ ] Disabled state
-  - [ ] TailwindCSS styled (green checkmark)
+- [x] Create Checkbox component (components/common/Checkbox.jsx):
+  - [x] Controlled component
+  - [x] Label support
+  - [x] Disabled state
+  - [x] TailwindCSS styled (green checkmark)
   
-- [ ] Create StatusBadge component (components/common/StatusBadge.jsx):
-  - [ ] Props: status ("Going Up", "Too Slow", etc.)
-  - [ ] Color mapping (green, yellow, red)
-  - [ ] Icon support (✓, ⚠, ✕)
-  - [ ] TailwindCSS styled (matches DRD)
+- [x] Create StatusBadge component (components/common/StatusBadge.jsx):
+  - [x] Props: status ("Going Up", "Too Slow", etc.)
+  - [x] Color mapping (green, yellow, red)
+  - [x] Icon support (✓, ⚠, ✕)
+  - [x] TailwindCSS styled (matches DRD)
   
-- [ ] Create Loading component (components/common/Loading.jsx):
-  - [ ] Spinner animation
-  - [ ] Full page overlay
-  - [ ] Inline spinner variant
+- [x] Create Loading component (components/common/Loading.jsx):
+  - [x] Spinner animation
+  - [x] Full page overlay
+  - [x] Inline spinner variant
+
+**Status:** ✅ Complete - All common components implemented with Layout integration
 
 ---
 
