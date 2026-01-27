@@ -33,6 +33,15 @@ const Layout = ({ children }) => {
               <Link className="text-sm text-neutral-700 hover:text-primary-700" to="/workout-log">
                 Workout Log
               </Link>
+              <Link className="text-sm text-neutral-700 hover:text-primary-700" to="/weekly-summary">
+                Weekly Summary
+              </Link>
+              <Link className="text-sm text-neutral-700 hover:text-primary-700" to="/monthly-summary">
+                Monthly Summary
+              </Link>
+              <Link className="text-sm text-neutral-700 hover:text-primary-700" to="/creatine-analysis">
+                Creatine Analysis
+              </Link>
               <Link className="text-sm text-neutral-700 hover:text-primary-700" to="/settings">
                 Settings
               </Link>
@@ -101,6 +110,27 @@ const Layout = ({ children }) => {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Workout Log
+              </Link>
+              <Link
+                className="text-sm text-neutral-700 hover:text-primary-700 py-2"
+                to="/weekly-summary"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Weekly Summary
+              </Link>
+              <Link
+                className="text-sm text-neutral-700 hover:text-primary-700 py-2"
+                to="/monthly-summary"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Monthly Summary
+              </Link>
+              <Link
+                className="text-sm text-neutral-700 hover:text-primary-700 py-2"
+                to="/creatine-analysis"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Creatine Analysis
               </Link>
               <Link
                 className="text-sm text-neutral-700 hover:text-primary-700 py-2"
