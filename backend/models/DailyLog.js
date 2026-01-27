@@ -157,4 +157,9 @@ dailyLogSchema.methods.populateCalculatedFields = async function () {
   return this;
 };
 
+// Indexes for performance
+dailyLogSchema.index({ userId: 1, date: -1 }); // Compound index for user queries sorted by date
+dailyLogSchema.index({ userId: 1 }); // Single index for user-based queries
+dailyLogSchema.index({ date: 1 }); // Index for date-based queries
+
 module.exports = mongoose.model('DailyLog', dailyLogSchema);

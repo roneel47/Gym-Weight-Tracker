@@ -197,4 +197,9 @@ workoutLogSchema.statics.getVolumeByMuscleGroup = async function (userId, startD
   return volumeByMuscle;
 };
 
+// Indexes for performance optimization
+workoutLogSchema.index({ userId: 1, date: -1 }); // Compound index for user's workouts sorted by date
+workoutLogSchema.index({ userId: 1 }); // Single index for user-based queries
+workoutLogSchema.index({ date: 1 }); // Index for date-based queries
+
 module.exports = mongoose.model('WorkoutLog', workoutLogSchema);

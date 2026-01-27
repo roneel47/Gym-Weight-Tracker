@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,17 +9,20 @@ import { AuthProvider } from './context/AuthContext';
 
 // Components
 import PrivateRoute from './components/common/PrivateRoute';
+import Loading from './components/common/Loading';
 
-// Pages
+// Eager-loaded pages (auth)
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
-import DailyLog from './pages/DailyLog';
-import WorkoutLog from './pages/WorkoutLog';
-import WeeklySummary from './pages/WeeklySummary';
-import MonthlySummary from './pages/MonthlySummary';
-import CreatineAnalysis from './pages/CreatineAnalysis';
-import Settings from './pages/Settings';
+
+// Lazy-loaded pages (protected routes)
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const DailyLog = lazy(() => import('./pages/DailyLog'));
+const WorkoutLog = lazy(() => import('./pages/WorkoutLog'));
+const WeeklySummary = lazy(() => import('./pages/WeeklySummary'));
+const MonthlySummary = lazy(() => import('./pages/MonthlySummary'));
+const CreatineAnalysis = lazy(() => import('./pages/CreatineAnalysis'));
+const Settings = lazy(() => import('./pages/Settings'));
 
 function App() {
   return (
@@ -36,7 +39,9 @@ function App() {
               path="/dashboard"
               element={
                 <PrivateRoute>
-                  <Dashboard />
+                  <Suspense fallback={<Loading fullScreen label="Loading dashboard..." />}>
+                    <Dashboard />
+                  </Suspense>
                 </PrivateRoute>
               }
             />
@@ -44,7 +49,9 @@ function App() {
               path="/daily-log"
               element={
                 <PrivateRoute>
-                  <DailyLog />
+                  <Suspense fallback={<Loading fullScreen label="Loading daily log..." />}>
+                    <DailyLog />
+                  </Suspense>
                 </PrivateRoute>
               }
             />
@@ -52,7 +59,9 @@ function App() {
               path="/workout-log"
               element={
                 <PrivateRoute>
-                  <WorkoutLog />
+                  <Suspense fallback={<Loading fullScreen label="Loading workout log..." />}>
+                    <WorkoutLog />
+                  </Suspense>
                 </PrivateRoute>
               }
             />
@@ -60,7 +69,9 @@ function App() {
               path="/weekly-summary"
               element={
                 <PrivateRoute>
-                  <WeeklySummary />
+                  <Suspense fallback={<Loading fullScreen label="Loading summary..." />}>
+                    <WeeklySummary />
+                  </Suspense>
                 </PrivateRoute>
               }
             />
@@ -68,7 +79,9 @@ function App() {
               path="/monthly-summary"
               element={
                 <PrivateRoute>
-                  <MonthlySummary />
+                  <Suspense fallback={<Loading fullScreen label="Loading summary..." />}>
+                    <MonthlySummary />
+                  </Suspense>
                 </PrivateRoute>
               }
             />
@@ -76,7 +89,9 @@ function App() {
               path="/creatine-analysis"
               element={
                 <PrivateRoute>
-                  <CreatineAnalysis />
+                  <Suspense fallback={<Loading fullScreen label="Loading analysis..." />}>
+                    <CreatineAnalysis />
+                  </Suspense>
                 </PrivateRoute>
               }
             />
@@ -84,7 +99,9 @@ function App() {
               path="/settings"
               element={
                 <PrivateRoute>
-                  <Settings />
+                  <Suspense fallback={<Loading fullScreen label="Loading settings..." />}>
+                    <Settings />
+                  </Suspense>
                 </PrivateRoute>
               }
             />

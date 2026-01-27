@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { toast } from 'react-toastify';
 import Layout from '../components/common/Layout';
 import Loading from '../components/common/Loading';
@@ -120,7 +120,8 @@ const Dashboard = () => {
     return weeks;
   };
 
-  const calculateProjection = () => {
+  // Memoize expensive calculations
+  const projection = useMemo(() => {
     if (dashboardData.weeklyGains.length === 0) return null;
 
     const avgWeeklyGain = dashboardData.weeklyGains.reduce((sum, w) => sum + w.gain, 0) / dashboardData.weeklyGains.length;
@@ -138,13 +139,17 @@ const Dashboard = () => {
         year: 'numeric',
       }),
     };
-  };
+  }, [dashboardData.weeklyGains, dashboardData.currentWeight]);
+
+  const gymConsistency = useMemo(() => {
+    return dashboardData.totalDays > 0
+      ? ((dashboardData.gymDays / dashboardData.totalDays) * 100).toFixed(0)
+      : 0;
+  }, [dashboardData.gymDays, dashboardData.totalDays]);
 
   if (loading) {
-    return <Loading />;
+    return <Loading fullScreen />;
   }
-
-  const projection = calculateProjection();
 
   return (
     <Layout>
@@ -170,7 +175,7 @@ const Dashboard = () => {
           <div className="card text-center">
             <p className="text-sm text-neutral-600 mb-1">Gym Consistency</p>
             <p className="text-2xl font-bold text-success-600">
-              {dashboardData.totalDays > 0 ? Math.round((dashboardData.gymDays / dashboardData.totalDays) * 100) : 0}%
+              {gymConsistency}%
             </p>
             <p className="text-xs text-neutral-500 mt-1">{dashboardData.gymDays}/{dashboardData.totalDays} days</p>
           </div>

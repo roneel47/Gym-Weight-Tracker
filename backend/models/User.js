@@ -64,4 +64,7 @@ userSchema.methods.toJSON = function () {
   return user;
 };
 
+// Indexes for performance optimization
+userSchema.index({ email: 1 }, { unique: true }); // Unique index for email lookups
+
 module.exports = mongoose.model('User', userSchema);
