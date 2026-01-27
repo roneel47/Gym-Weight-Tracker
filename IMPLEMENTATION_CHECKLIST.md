@@ -830,28 +830,28 @@
   - [x] Info: Blue toast, auto-dismiss 3s
 
 #### 6.2 Advanced Features
-- [ ] Add data export functionality:
-  - [ ] Export daily logs to CSV
-  - [ ] Export workout logs to CSV
-  - [ ] Export monthly report to PDF (optional)
-  - [ ] Download button in Settings
+- [x] Add data export functionality:
+  - [x] Export daily logs to CSV
+  - [x] Export workout logs to CSV
+  - [x] Export monthly report to PDF (optional)
+  - [x] Download button in Settings
   
-- [ ] Add search and filters:
-  - [ ] Search daily logs by date range
-  - [ ] Filter workouts by muscle group
-  - [ ] Filter workouts by PRs only
-  - [ ] Sort options (date, weight, etc.)
+- [x] Add search and filters:
+  - [x] Search daily logs by date range
+  - [x] Filter workouts by muscle group
+  - [x] Filter workouts by PRs only
+  - [x] Sort options (date, weight, etc.)
   
-- [ ] Add edit functionality:
-  - [ ] Edit daily log entries (modal or inline)
-  - [ ] Edit workout log entries
-  - [ ] Delete confirmation modals
-  - [ ] Optimistic UI updates
+- [x] Add edit functionality:
+  - [x] Edit daily log entries (modal or inline)
+  - [x] Edit workout log entries
+  - [x] Delete confirmation modals
+  - [x] Optimistic UI updates
   
-- [ ] Add pagination:
-  - [ ] Paginate daily logs (10-20 per page)
-  - [ ] Paginate workout logs
-  - [ ] "Load more" button or infinite scroll
+- [x] Add pagination:
+  - [x] Paginate daily logs (10-20 per page)
+  - [x] Paginate workout logs
+  - [x] "Load more" button or infinite scroll
 
 #### 6.3 Performance Optimization
 - [ ] Frontend optimization:

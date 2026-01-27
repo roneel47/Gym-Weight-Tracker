@@ -5,8 +5,10 @@ import DailyLogForm from '../components/forms/DailyLogForm';
 import StatusBadge from '../components/common/StatusBadge';
 import { Button } from '../components/common/Button';
 import Loading from '../components/common/Loading';
+import ConfirmModal from '../components/common/ConfirmModal';
 import * as dailyLogService from '../services/dailyLogService';
 import { formatDate, formatWeight } from '../utils/helpers';
+import { exportToCSV, formatDailyLogsForExport } from '../utils/exportUtils';
 
 const DailyLog = () => {
   const [logs, setLogs] = useState([]);
@@ -15,17 +17,40 @@ const DailyLog = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [editingLog, setEditingLog] = useState(null);
   const [calculatedMetrics, setCalculatedMetrics] = useState(null);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [deleteModal, setDeleteModal] = useState({ isOpen: false, logId: null });
   const logsPerPage = 10;
 
   useEffect(() => {
     fetchLogs();
-  }, [currentPage]);
+  }, [currentPage, startDate, endDate]);
 
   const fetchLogs = async () => {
     try {
       setLoading(true);
       const response = await dailyLogService.getDailyLogs(logsPerPage, currentPage);
-      setLogs(response.logs || []);
+      let filteredLogs = response.logs || [];
+      
+      // Apply date range filter
+      if (startDate || endDate) {
+        filteredLogs = filteredLogs.filter(log => {
+          const logDate = new Date(log.date);
+          const start = startDate ? new Date(startDate) : null;
+          const end = endDate ? new Date(endDate) : null;
+          
+          if (start && end) {
+            return logDate >= start && logDate <= end;
+          } else if (start) {
+            return logDate >= start;
+          } else if (end) {
+            return logDate <= end;
+          }
+          return true;
+        });
+      }
+      
+      setLogs(filteredLogs);
       setTotalPages(response.totalPages || 1);
       
       // Calculate metrics from latest log
@@ -55,12 +80,12 @@ const DailyLog = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this log?')) {
-      return;
-    }
+    setDeleteModal({ isOpen: true, logId: id });
+  };
 
+  const confirmDelete = async () => {
     try {
-      await dailyLogService.deleteDailyLog(id);
+      await dailyLogService.deleteDailyLog(deleteModal.logId);
       toast.success('Daily log deleted successfully');
       fetchLogs();
     } catch (err) {
@@ -97,14 +122,33 @@ const DailyLog = () => {
     }
   };
 
+  const handleExport = async () => {
+    try {
+      // Fetch all logs for export
+      const response = await dailyLogService.getDailyLogs(10000, 1);
+      const formattedData = formatDailyLogsForExport(response.logs || []);
+      const filename = `daily-logs-${new Date().toISOString().split('T')[0]}.csv`;
+      exportToCSV(formattedData, filename);
+      toast.success('Daily logs exported successfully!');
+    } catch (err) {
+      toast.error('Failed to export daily logs');
+    }
+  };
+
   return (
     <Layout>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold text-neutral-900">Daily Log</h1>
-          <p className="text-neutral-600 text-sm mt-1">
-            {editingLog ? 'Edit your daily entry' : 'Log your daily weight, nutrition, and gym attendance'}
-          </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-neutral-900">Daily Log</h1>
+            <p className="text-neutral-600 text-sm mt-1">
+              {editingLog ? 'Edit your daily entry' : 'Log your daily weight, nutrition, and gym attendance'}
+            </p>
+          </div>
+          <Button size="sm" variant="outline" onClick={handleExport}>
+            <span className="material-icons text-sm mr-1">download</span>
+            Export CSV
+          </Button>
         </div>
 
         {/* Daily Log Form */}
@@ -155,7 +199,37 @@ const DailyLog = () => {
 
         {/* Recent Entries Table */}
         <div className="card">
-          <h2 className="text-lg font-semibold text-neutral-900 mb-4">Recent Entries</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-neutral-900">Recent Entries</h2>
+            <div className="flex gap-2">
+              <Input
+                type="date"
+                placeholder="Start date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className="w-40"
+              />
+              <Input
+                type="date"
+                placeholder="End date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="w-40"
+              />
+              {(startDate || endDate) && (
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  onClick={() => {
+                    setStartDate('');
+                    setEndDate('');
+                  }}
+                >
+                  Clear
+                </Button>
+              )}
+            </div>
+          </div>
           
           {loading ? (
             <div className="flex justify-center py-8">
@@ -284,6 +358,16 @@ const DailyLog = () => {
             </>
           )}
         </div>
+
+        <ConfirmModal
+          isOpen={deleteModal.isOpen}
+          onClose={() => setDeleteModal({ isOpen: false, logId: null })}
+          onConfirm={confirmDelete}
+          title="Delete Daily Log"
+          message="Are you sure you want to delete this log entry? This action cannot be undone."
+          confirmText="Delete"
+          variant="danger"
+        />
       </div>
     </Layout>
   );

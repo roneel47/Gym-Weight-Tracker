@@ -6,7 +6,10 @@ import Loading from '../components/common/Loading';
 import Input from '../components/common/Input';
 import { Button } from '../components/common/Button';
 import * as settingsService from '../services/settingsService';
+import * as dailyLogService from '../services/dailyLogService';
+import * as workoutLogService from '../services/workoutLogService';
 import { useAuth } from '../hooks/useAuth';
+import { exportToCSV, formatDailyLogsForExport, formatWorkoutLogsForExport } from '../utils/exportUtils';
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -108,8 +111,39 @@ const Settings = () => {
     navigate('/login');
   };
 
+  const handleExportDailyLogs = async () => {
+    try {
+      const response = await dailyLogService.getDailyLogs(10000, 1);
+      const formattedData = formatDailyLogsForExport(response.logs || []);
+      const filename = `daily-logs-${new Date().toISOString().split('T')[0]}.csv`;
+      exportToCSV(formattedData, filename);
+      toast.success('Daily logs exported successfully!');
+    } catch (err) {
+      toast.error('Failed to export daily logs');
+    }
+  };
+
+  const handleExportWorkoutLogs = async () => {
+    try {
+      const response = await workoutLogService.getAllWorkoutLogs({ limit: 10000 });
+      const workoutData = Array.isArray(response?.workoutLogs) 
+        ? response.workoutLogs 
+        : Array.isArray(response?.logs)
+        ? response.logs
+        : Array.isArray(response)
+        ? response
+        : [];
+      const formattedData = formatWorkoutLogsForExport(workoutData);
+      const filename = `workout-logs-${new Date().toISOString().split('T')[0]}.csv`;
+      exportToCSV(formattedData, filename);
+      toast.success('Workout logs exported successfully!');
+    } catch (err) {
+      toast.error('Failed to export workout logs');
+    }
+  };
+
   if (loading) {
-    return <Loading />;
+    return <Loading fullScreen />;
   }
 
   return (
@@ -232,6 +266,30 @@ const Settings = () => {
               <p className="text-sm text-neutral-600">Email</p>
               <p className="text-neutral-900 font-medium">{user?.email}</p>
             </div>
+          </div>
+        </div>
+
+        {/* Data Export */}
+        <div className="card">
+          <h2 className="text-xl font-semibold text-neutral-900 mb-4">Data Export</h2>
+          <p className="text-sm text-neutral-600 mb-4">Download your data in CSV format</p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Button
+              onClick={handleExportDailyLogs}
+              variant="secondary"
+              className="flex-1"
+            >
+              <span className="material-icons text-sm mr-2">download</span>
+              Export Daily Logs
+            </Button>
+            <Button
+              onClick={handleExportWorkoutLogs}
+              variant="secondary"
+              className="flex-1"
+            >
+              <span className="material-icons text-sm mr-2">download</span>
+              Export Workout Logs
+            </Button>
           </div>
         </div>
 

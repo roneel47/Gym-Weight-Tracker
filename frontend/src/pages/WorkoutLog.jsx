@@ -9,6 +9,7 @@ import Loading from '../components/common/Loading';
 import * as workoutLogService from '../services/workoutLogService';
 import { formatDate } from '../utils/helpers';
 import { MUSCLE_GROUPS } from '../utils/constants';
+import { exportToCSV, formatWorkoutLogsForExport } from '../utils/exportUtils';
 
 const WorkoutLog = () => {
   const [selectedDate, setSelectedDate] = useState(format(new Date(), 'yyyy-MM-dd'));
@@ -132,8 +133,27 @@ const WorkoutLog = () => {
     return allExercises.filter((ex) => ex.muscleGroup === filterMuscleGroup);
   };
 
+  const handleExport = async () => {
+    try {
+      const response = await workoutLogService.getAllWorkoutLogs({ limit: 10000 });
+      const workoutData = Array.isArray(response?.workoutLogs) 
+        ? response.workoutLogs 
+        : Array.isArray(response?.logs)
+        ? response.logs
+        : Array.isArray(response)
+        ? response
+        : [];
+      const formattedData = formatWorkoutLogsForExport(workoutData);
+      const filename = `workout-logs-${new Date().toISOString().split('T')[0]}.csv`;
+      exportToCSV(formattedData, filename);
+      toast.success('Workout logs exported successfully!');
+    } catch (err) {
+      toast.error('Failed to export workout logs');
+    }
+  };
+
   if (loading) {
-    return <Loading />;
+    return <Loading fullScreen />;
   }
 
   const exercises = filteredExercises();
@@ -143,9 +163,15 @@ const WorkoutLog = () => {
   return (
     <Layout>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold text-neutral-900">Workout Log</h1>
-          <p className="text-neutral-600 text-sm mt-1">Track your exercises, sets, reps, and personal records</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-neutral-900">Workout Log</h1>
+            <p className="text-neutral-600 text-sm mt-1">Track your exercises, sets, reps, and personal records</p>
+          </div>
+          <Button size="sm" variant="outline" onClick={handleExport}>
+            <span className="material-icons text-sm mr-1">download</span>
+            Export CSV
+          </Button>
         </div>
 
         {/* Date Selector */}
