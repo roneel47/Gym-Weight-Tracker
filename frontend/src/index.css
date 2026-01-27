@@ -45,45 +45,37 @@ code {
 
 /* Dark mode overrides */
 html.dark body {
-  background-color: #0f172a;
+  background-color: #0a0f1a;
   color: #e2e8f0;
 }
 
 html.dark header {
-  background-color: #0b1220;
+  background-color: #0c1424;
   border-color: #1f2937;
 }
 
-html.dark .card {
-  background-color: #111827;
-  border-color: #1f2937;
+html.dark .card,
+html.dark .bg-white {
+  background-color: #0f172a !important;
+  border-color: #1f2937 !important;
   box-shadow: none;
   color: #e2e8f0;
 }
 
-html.dark .bg-white {
-  background-color: #111827 !important;
-  color: #e2e8f0;
-}
-
-html.dark .border-neutral-200 {
-  border-color: #1f2937 !important;
-}
-
-html.dark .text-neutral-900 { color: #e2e8f0 !important; }
+html.dark .border-neutral-200 { border-color: #1f2937 !important; }
+html.dark .text-neutral-900 { color: #f8fafc !important; }
+html.dark .text-neutral-800 { color: #e2e8f0 !important; }
 html.dark .text-neutral-700 { color: #cbd5e1 !important; }
 html.dark .text-neutral-600 { color: #94a3b8 !important; }
 html.dark .text-neutral-500 { color: #94a3b8 !important; }
 
 html.dark .input {
-  background-color: #0b1220;
+  background-color: #0c1424;
   border-color: #1f2937;
   color: #e2e8f0;
 }
 
-html.dark .label {
-  color: #cbd5e1;
-}
+html.dark .label { color: #cbd5e1; }
 
 html.dark table th,
 html.dark table td {
@@ -95,4 +87,16 @@ html.dark .btn-secondary {
   background-color: #1f2937;
   color: #e2e8f0;
   border: 1px solid #334155;
+}
+
+/* Charts in dark mode */
+html.dark .recharts-cartesian-grid-vertical line,
+html.dark .recharts-cartesian-grid-horizontal line {
+  stroke: #1f2937;
+}
+html.dark .recharts-text { fill: #cbd5e1 !important; }
+html.dark .recharts-tooltip-wrapper .recharts-default-tooltip {
+  background-color: #0f172a !important;
+  border: 1px solid #1f2937 !important;
+  color: #e2e8f0 !important;
 }
