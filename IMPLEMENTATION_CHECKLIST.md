@@ -622,30 +622,32 @@
   - [ ] Show blank if creatine not started
 
 #### 4.2 Frontend - Dashboard Page
-- [ ] Create Dashboard page (pages/Dashboard.jsx):
-  - [ ] Page header: "Dashboard - Progress Overview"
-  - [ ] Fetch dashboard stats from API
-  - [ ] 2×2 grid layout for charts:
-    - [ ] Top-left: Weight Progression Chart
-    - [ ] Top-right: Weekly Gain Chart
-    - [ ] Bottom-left: Gym Days Pie Chart
-    - [ ] Bottom-right: Creatine Usage Chart
-  - [ ] Key metrics section (below charts):
-    - [ ] Current weight, 7-day avg, trend
-    - [ ] Gym consistency, PRs this month
-    - [ ] Avg energy, avg strength
-  - [ ] Projection section:
-    - [ ] Weight gain rate projection
-    - [ ] Estimated time to target (60 kg)
-  - [ ] Responsive layout:
-    - [ ] Desktop: 2×2 grid
-    - [ ] Tablet: 2 columns, stacked rows
-    - [ ] Mobile: Single column
-  - [ ] Loading state while fetching data
-  - [ ] Error handling
+- [x] Create Dashboard page (pages/Dashboard.jsx):
+  - [x] Page header: "Dashboard - Progress Overview"
+  - [x] Fetch dashboard stats from API
+  - [x] 2×2 grid layout for charts:
+    - [x] Top-left: Weight Progression Chart
+    - [x] Top-right: Weekly Gain Chart
+    - [x] Bottom-left: Gym Days Pie Chart
+    - [x] Bottom-right: Creatine Usage Chart
+  - [x] Key metrics section (below charts):
+    - [x] Current weight, 7-day avg, trend
+    - [x] Gym consistency, PRs this month
+    - [x] Avg energy, avg strength
+  - [x] Projection section:
+    - [x] Weight gain rate projection
+    - [x] Estimated time to target (60 kg)
+  - [x] Responsive layout:
+    - [x] Desktop: 2×2 grid
+    - [x] Tablet: 2 columns, stacked rows
+    - [x] Mobile: Single column
+  - [x] Loading state while fetching data
+  - [x] Error handling
+
+**Status:** ✅ Complete - Dashboard with all 4 charts and metrics
 
 #### 4.3 Frontend - Weekly Summary Page
-- [ ] Create WeeklySummary page (pages/WeeklySummary.jsx):
+- [ ] Create WeeklySummary page (pages/WeeklySummary.jsx): **⏳ IN PROGRESS**
   - [ ] Page header: "Weekly Summary - Week of [Date]"
   - [ ] Week selector (previous/next week buttons)
   - [ ] Fetch weekly summary from API
