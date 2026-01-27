@@ -48,11 +48,27 @@ const Settings = () => {
           workoutReminder: true,
         },
       });
+      // Apply theme
+      applyTheme(data.theme || 'light');
     } catch (error) {
       console.error('Failed to load settings:', error);
+      // Load from localStorage as fallback
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      setFormData(prev => ({ ...prev, theme: savedTheme }));
+      applyTheme(savedTheme);
       toast.error('Failed to load settings');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const applyTheme = (themeValue) => {
+    if (themeValue === 'dark') {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
     }
   };
 
@@ -62,6 +78,10 @@ const Settings = () => {
       ...formData,
       [name]: value,
     });
+    // Preview theme change immediately
+    if (name === 'theme') {
+      applyTheme(value);
+    }
   };
 
   const handleNotificationChange = (e) => {
@@ -79,6 +99,8 @@ const Settings = () => {
     try {
       setSaving(true);
       await settingsService.updateSettings(formData);
+      // Apply theme immediately
+      applyTheme(formData.theme);
       toast.success('Settings saved successfully');
       loadSettings(); // Reload to confirm
     } catch (error) {
