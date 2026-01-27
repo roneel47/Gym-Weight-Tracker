@@ -61,6 +61,9 @@ app.use('/api/workout-logs', require('./routes/workoutLogs'));
 // Analytics routes (requires authentication)
 app.use('/api/analytics', require('./routes/analytics'));
 
+// Settings routes (requires authentication)
+app.use('/api/settings', require('./routes/settings'));
+
 // ==================== ERROR HANDLING ====================
 
 // 404 Not Found handler
