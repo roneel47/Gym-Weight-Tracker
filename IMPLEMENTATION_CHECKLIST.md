@@ -80,27 +80,29 @@
 - Test script: `backend/testConnection.js`
 
 #### 1.4 Backend - User Authentication Models & Routes
-- [ ] Create User model (models/User.js):
-  - [ ] Fields: email, password (hashed), name, createdAt
-  - [ ] Pre-save hook to hash password with bcrypt
-  - [ ] Method to compare password for login
-  - [ ] Index on email for faster queries
+- [x] Create User model (models/User.js):
+  - [x] Fields: email, password (hashed), name, createdAt
+  - [x] Pre-save hook to hash password with bcrypt
+  - [x] Method to compare password for login
+  - [x] Index on email for faster queries
   
-- [ ] Create JWT secret in .env file
-- [ ] Create auth middleware (middleware/auth.js):
-  - [ ] Verify JWT token from request header
-  - [ ] Attach user ID to request object
-  - [ ] Handle token expiration
+- [x] Create JWT secret in .env file
+- [x] Create auth middleware (middleware/auth.js):
+  - [x] Verify JWT token from request header
+  - [x] Attach user ID to request object
+  - [x] Handle token expiration
   
-- [ ] Create auth routes (routes/auth.js):
-  - [ ] POST /api/auth/register - Register new user
-  - [ ] POST /api/auth/login - Login user
-  - [ ] GET /api/auth/me - Get current user
+- [x] Create auth routes (routes/auth.js):
+  - [x] POST /api/auth/register - Register new user
+  - [x] POST /api/auth/login - Login user
+  - [x] GET /api/auth/me - Get current user
   
-- [ ] Create authController (controllers/authController.js):
-  - [ ] Register: Validate input, hash password, save user, return JWT
-  - [ ] Login: Validate credentials, compare password, return JWT
-  - [ ] Get user: Return user details (exclude password)
+- [x] Create authController (controllers/authController.js):
+  - [x] Register: Validate input, hash password, save user, return JWT
+  - [x] Login: Validate credentials, compare password, return JWT
+  - [x] Get user: Return user details (exclude password)
+
+**Status:** ✅ Complete - 3 endpoints, full validation, JWT token generation
 
 #### 1.5 Backend - Daily Log Model & Routes
 - [ ] Create DailyLog model (models/DailyLog.js):
