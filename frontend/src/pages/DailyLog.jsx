@@ -1,24 +1,253 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { format, parseISO } from 'date-fns';
+import { toast } from 'react-toastify';
 import Layout from '../components/common/Layout';
 import DailyLogForm from '../components/forms/DailyLogForm';
+import StatusBadge from '../components/common/StatusBadge';
+import { Button } from '../components/common/Button';
+import Loading from '../components/common/Loading';
+import * as dailyLogService from '../services/dailyLogService';
+import { formatDate, formatWeight } from '../utils/helpers';
 
 const DailyLog = () => {
+  const [logs, setLogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [editingLog, setEditingLog] = useState(null);
+  const [calculatedMetrics, setCalculatedMetrics] = useState(null);
+  const logsPerPage = 10;
+
+  useEffect(() => {
+    fetchLogs();
+  }, [currentPage]);
+
+  const fetchLogs = async () => {
+    try {
+      setLoading(true);
+      const response = await dailyLogService.getDailyLogs(logsPerPage, currentPage);
+      setLogs(response.logs || []);
+      setTotalPages(response.totalPages || 1);
+      
+      // Calculate metrics from latest log
+      if (response.logs && response.logs.length > 0) {
+        const latestLog = response.logs[0];
+        setCalculatedMetrics({
+          dailyChange: latestLog.dailyChange,
+          sevenDayAverage: latestLog.sevenDayAverage,
+          status: latestLog.status,
+        });
+      }
+    } catch (err) {
+      toast.error('Failed to load daily logs');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSuccess = () => {
+    setEditingLog(null);
+    fetchLogs();
+  };
+
+  const handleEdit = (log) => {
+    setEditingLog(log);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this log?')) {
+      return;
+    }
+
+    try {
+      await dailyLogService.deleteDailyLog(id);
+      toast.success('Daily log deleted successfully');
+      fetchLogs();
+    } catch (err) {
+      toast.error('Failed to delete daily log');
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingLog(null);
+  };
+
+  const getStatusVariant = (status) => {
+    if (!status) return 'neutral';
+    if (status.includes('Going Up')) return 'success';
+    if (status.includes('Too Slow')) return 'warning';
+    if (status.includes('Dropping') || status.includes('Too Fast')) return 'danger';
+    return 'neutral';
+  };
+
   return (
     <Layout>
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-neutral-900">Daily Log</h1>
-          <p className="text-neutral-600 text-sm mt-1">Log your daily weight, nutrition, and gym attendance</p>
+          <p className="text-neutral-600 text-sm mt-1">
+            {editingLog ? 'Edit your daily entry' : 'Log your daily weight, nutrition, and gym attendance'}
+          </p>
         </div>
 
+        {/* Daily Log Form */}
         <div className="card">
-          <h2 className="text-lg font-semibold text-neutral-900 mb-4">Today's Entry</h2>
-          <DailyLogForm />
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-neutral-900">
+              {editingLog ? 'Edit Entry' : "Today's Entry"}
+            </h2>
+            {editingLog && (
+              <Button size="sm" variant="secondary" onClick={handleCancelEdit}>
+                Cancel Edit
+              </Button>
+            )}
+          </div>
+          <DailyLogForm onSuccess={handleSuccess} initialData={editingLog} />
         </div>
 
+        {/* Calculated Metrics */}
+        {calculatedMetrics && (
+          <div className="grid gap-4 md:grid-cols-3">
+            <div className="card">
+              <h3 className="text-sm font-medium text-neutral-700 mb-1">Daily Change</h3>
+              <p className="text-2xl font-bold text-neutral-900">
+                {calculatedMetrics.dailyChange !== null && calculatedMetrics.dailyChange !== undefined
+                  ? `${calculatedMetrics.dailyChange > 0 ? '+' : ''}${calculatedMetrics.dailyChange.toFixed(1)} kg`
+                  : 'N/A'}
+              </p>
+            </div>
+            <div className="card">
+              <h3 className="text-sm font-medium text-neutral-700 mb-1">7-Day Average</h3>
+              <p className="text-2xl font-bold text-neutral-900">
+                {calculatedMetrics.sevenDayAverage
+                  ? formatWeight(calculatedMetrics.sevenDayAverage)
+                  : 'N/A'}
+              </p>
+            </div>
+            <div className="card">
+              <h3 className="text-sm font-medium text-neutral-700 mb-1">Status</h3>
+              <StatusBadge variant={getStatusVariant(calculatedMetrics.status)}>
+                {calculatedMetrics.status || 'No data'}
+              </StatusBadge>
+            </div>
+          </div>
+        )}
+
+        {/* Recent Entries Table */}
         <div className="card">
           <h2 className="text-lg font-semibold text-neutral-900 mb-4">Recent Entries</h2>
-          <p className="text-neutral-600 text-sm">Recent logs will appear here</p>
+          
+          {loading ? (
+            <div className="flex justify-center py-8">
+              <Loading label="Loading logs..." />
+            </div>
+          ) : logs.length === 0 ? (
+            <p className="text-neutral-600 text-sm text-center py-8">
+              No entries yet. Start logging your daily progress!
+            </p>
+          ) : (
+            <>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="border-b bg-neutral-50">
+                    <tr>
+                      <th className="px-4 py-3 text-left font-medium text-neutral-700">Date</th>
+                      <th className="px-4 py-3 text-left font-medium text-neutral-700">Weight</th>
+                      <th className="px-4 py-3 text-left font-medium text-neutral-700">Eggs</th>
+                      <th className="px-4 py-3 text-center font-medium text-neutral-700">Gym</th>
+                      <th className="px-4 py-3 text-center font-medium text-neutral-700">Creatine</th>
+                      <th className="px-4 py-3 text-center font-medium text-neutral-700">Energy</th>
+                      <th className="px-4 py-3 text-center font-medium text-neutral-700">Strength</th>
+                      <th className="px-4 py-3 text-left font-medium text-neutral-700">Notes</th>
+                      <th className="px-4 py-3 text-right font-medium text-neutral-700">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y">
+                    {logs.map((log) => (
+                      <tr key={log._id} className="hover:bg-neutral-50">
+                        <td className="px-4 py-3 text-neutral-900">
+                          {formatDate(log.date)}
+                        </td>
+                        <td className="px-4 py-3 text-neutral-900 font-medium">
+                          {formatWeight(log.weight)}
+                        </td>
+                        <td className="px-4 py-3 text-neutral-700">{log.eggsConsumed || 0}</td>
+                        <td className="px-4 py-3 text-center">
+                          {log.gymAttendance ? (
+                            <span className="text-success-600">✓</span>
+                          ) : (
+                            <span className="text-neutral-400">—</span>
+                          )}
+                        </td>
+                        <td className="px-4 py-3 text-center">
+                          {log.creatineIntake ? (
+                            <span className="text-success-600">✓</span>
+                          ) : (
+                            <span className="text-neutral-400">—</span>
+                          )}
+                        </td>
+                        <td className="px-4 py-3 text-center text-neutral-700">
+                          {log.energyLevel || '—'}
+                        </td>
+                        <td className="px-4 py-3 text-center text-neutral-700">
+                          {log.strengthInGym || '—'}
+                        </td>
+                        <td className="px-4 py-3 text-neutral-600 max-w-xs truncate">
+                          {log.notes || '—'}
+                        </td>
+                        <td className="px-4 py-3 text-right">
+                          <div className="flex gap-2 justify-end">
+                            <Button
+                              size="sm"
+                              variant="secondary"
+                              onClick={() => handleEdit(log)}
+                            >
+                              Edit
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="danger"
+                              onClick={() => handleDelete(log._id)}
+                            >
+                              Delete
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-between mt-4 pt-4 border-t">
+                  <p className="text-sm text-neutral-600">
+                    Page {currentPage} of {totalPages}
+                  </p>
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                      disabled={currentPage === 1}
+                    >
+                      Previous
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+                      disabled={currentPage === totalPages}
+                    >
+                      Next
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
     </Layout>
