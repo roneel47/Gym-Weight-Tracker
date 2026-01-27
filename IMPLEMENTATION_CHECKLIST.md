@@ -22,24 +22,24 @@
 - [x] Configure VS Code workspace settings
 
 #### 1.2 Backend - Initial Setup
-- [ ] Initialize Node.js project: `npm init -y`
-- [ ] Install core dependencies:
-  - [ ] Express.js (`express`)
-  - [ ] Mongoose (`mongoose`)
-  - [ ] dotenv (`dotenv`)
-  - [ ] CORS (`cors`)
-  - [ ] Nodemon (`nodemon` - dev dependency)
-  - [ ] bcryptjs (`bcryptjs` for password hashing)
-  - [ ] jsonwebtoken (`jsonwebtoken` for JWT)
-  - [ ] express-validator (`express-validator`)
+- [x] Initialize Node.js project: `npm init -y`
+- [x] Install core dependencies:
+  - [x] Express.js (`express`)
+  - [x] Mongoose (`mongoose`)
+  - [x] dotenv (`dotenv`)
+  - [x] CORS (`cors`)
+  - [x] Nodemon (`nodemon` - dev dependency)
+  - [x] bcryptjs (`bcryptjs` for password hashing)
+  - [x] jsonwebtoken (`jsonwebtoken` for JWT)
+  - [x] express-validator (`express-validator`)
   
-- [ ] Create backend folder structure:
+- [x] Create backend folder structure:
   ```
   backend/
-  ├── server.js
+  ├── server.js                 (Ready for Phase 1.8)
   ├── config/
-  │   └── db.js
-  ├── models/
+  │   └── db.js                 ✓ Database connection setup
+  ├── models/                   (Ready for Phase 1.4-1.7)
   │   ├── User.js
   │   ├── DailyLog.js
   │   ├── WorkoutLog.js
@@ -57,11 +57,11 @@
   │   ├── analyticsController.js
   │   └── settingsController.js
   ├── middleware/
-  │   ├── auth.js
-  │   └── validation.js
-  └── utils/
-      ├── calculations.js
-      └── constants.js
+  │   └── auth.js                ✓ JWT authentication middleware
+  ├── utils/
+  │   └── calculations.js        ✓ Calculation utilities
+  ├── .env.example               ✓ Environment template
+  └── package.json               ✓ Configured with npm scripts
   ```
 
 #### 1.3 Database Setup (MongoDB Atlas)
