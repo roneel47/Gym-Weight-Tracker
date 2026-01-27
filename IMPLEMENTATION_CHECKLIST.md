@@ -329,27 +329,29 @@
 **Status:** ✅ Complete - Already implemented in Phase 2.1
 
 #### 2.4 Frontend - Authentication Pages
-- [ ] Create Register page (pages/Register.jsx):
-  - [ ] Form fields: Name, Email, Password, Confirm Password
-  - [ ] Client-side validation
-  - [ ] Call authService.register()
-  - [ ] Show success/error toast
-  - [ ] Redirect to dashboard on success
-  - [ ] Link to Login page
+- [x] Create Register page (pages/Register.jsx):
+  - [x] Form fields: Name, Email, Password, Confirm Password
+  - [x] Client-side validation
+  - [x] Call authService.register()
+  - [x] Show success/error toast
+  - [x] Redirect to dashboard on success
+  - [x] Link to Login page
   
-- [ ] Create Login page (pages/Login.jsx):
-  - [ ] Form fields: Email, Password
-  - [ ] Client-side validation
-  - [ ] Call authService.login()
-  - [ ] Show success/error toast
-  - [ ] Redirect to dashboard on success
-  - [ ] Link to Register page
+- [x] Create Login page (pages/Login.jsx):
+  - [x] Form fields: Email, Password
+  - [x] Client-side validation
+  - [x] Call authService.login()
+  - [x] Show success/error toast
+  - [x] Redirect to dashboard on success
+  - [x] Link to Register page
   
-- [ ] Style auth pages with TailwindCSS:
-  - [ ] Center card layout
-  - [ ] Brand colors (#2E7D32 primary)
-  - [ ] Responsive design (mobile-first)
-  - [ ] Input focus states (#2E7D32 border)
+- [x] Style auth pages with TailwindCSS:
+  - [x] Center card layout
+  - [x] Brand colors (#2E7D32 primary)
+  - [x] Responsive design (mobile-first)
+  - [x] Input focus states (#2E7D32 border)
+
+**Status:** ✅ Complete - Full auth UI with validation and toast notifications
 
 #### 2.5 Frontend - Routing & Protected Routes
 - [ ] Set up React Router in App.js:
