@@ -137,22 +137,22 @@ const DailyLog = () => {
 
   return (
     <Layout>
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
+      <main className="space-y-6">
+        <header className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-neutral-900">Daily Log</h1>
             <p className="text-neutral-600 text-sm mt-1">
               {editingLog ? 'Edit your daily entry' : 'Log your daily weight, nutrition, and gym attendance'}
             </p>
           </div>
-          <Button size="sm" variant="outline" onClick={handleExport}>
-            <span className="material-icons text-sm mr-1">download</span>
+          <Button size="sm" variant="outline" onClick={handleExport} aria-label="Export daily logs to CSV">
+            <span className="material-icons text-sm mr-1" aria-hidden="true">download</span>
             Export CSV
           </Button>
-        </div>
+        </header>
 
         {/* Daily Log Form */}
-        <div className="card">
+        <section aria-label="Daily log entry form" className="card">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-neutral-900">
               {editingLog ? 'Edit Entry' : "Today's Entry"}
@@ -164,11 +164,11 @@ const DailyLog = () => {
             )}
           </div>
           <DailyLogForm onSuccess={handleSuccess} initialData={editingLog} />
-        </div>
+        </section>
 
         {/* Calculated Metrics */}
         {calculatedMetrics && (
-          <div className="grid gap-4 md:grid-cols-3">
+          <section aria-label="Calculated metrics" className="grid gap-4 md:grid-cols-3">
             <div className="card">
               <h3 className="text-sm font-medium text-neutral-700 mb-1">Daily Change</h3>
               <p className="text-2xl font-bold text-neutral-900">
@@ -198,16 +198,17 @@ const DailyLog = () => {
         )}
 
         {/* Recent Entries Table */}
-        <div className="card">
+        <section aria-label="Recent log entries" className="card">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-neutral-900">Recent Entries</h2>
-            <div className="flex gap-2">
+            <div className="flex gap-2" role="group" aria-label="Date filters">
               <Input
                 type="date"
                 placeholder="Start date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
                 className="w-40"
+                aria-label="Filter by start date"
               />
               <Input
                 type="date"
@@ -215,6 +216,7 @@ const DailyLog = () => {
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
                 className="w-40"
+                aria-label="Filter by end date"
               />
               {(startDate || endDate) && (
                 <Button
@@ -224,6 +226,7 @@ const DailyLog = () => {
                     setStartDate('');
                     setEndDate('');
                   }}
+                  aria-label="Clear date filters"
                 >
                   Clear
                 </Button>
@@ -242,19 +245,19 @@ const DailyLog = () => {
           ) : (
             <>
               <div className="overflow-x-auto">
-                <table className="w-full text-sm">
+                <table className="w-full text-sm" aria-label="Daily log entries">
                   <thead className="border-b bg-neutral-50">
                     <tr>
-                      <th className="px-4 py-3 text-left font-medium text-neutral-700">Date</th>
-                      <th className="px-4 py-3 text-left font-medium text-neutral-700">Weight</th>
-                      <th className="px-4 py-3 text-left font-medium text-neutral-700">Change</th>
-                      <th className="px-4 py-3 text-left font-medium text-neutral-700">Eggs</th>
-                      <th className="px-4 py-3 text-center font-medium text-neutral-700">Gym</th>
-                      <th className="px-4 py-3 text-center font-medium text-neutral-700">Creatine</th>
-                      <th className="px-4 py-3 text-center font-medium text-neutral-700">Energy</th>
-                      <th className="px-4 py-3 text-center font-medium text-neutral-700">Strength</th>
-                      <th className="px-4 py-3 text-left font-medium text-neutral-700">Notes</th>
-                      <th className="px-4 py-3 text-right font-medium text-neutral-700">Actions</th>
+                      <th scope="col" className="px-4 py-3 text-left font-medium text-neutral-700">Date</th>
+                      <th scope="col" className="px-4 py-3 text-left font-medium text-neutral-700">Weight</th>
+                      <th scope="col" className="px-4 py-3 text-left font-medium text-neutral-700">Change</th>
+                      <th scope="col" className="px-4 py-3 text-left font-medium text-neutral-700">Eggs</th>
+                      <th scope="col" className="px-4 py-3 text-center font-medium text-neutral-700">Gym</th>
+                      <th scope="col" className="px-4 py-3 text-center font-medium text-neutral-700">Creatine</th>
+                      <th scope="col" className="px-4 py-3 text-center font-medium text-neutral-700">Energy</th>
+                      <th scope="col" className="px-4 py-3 text-center font-medium text-neutral-700">Strength</th>
+                      <th scope="col" className="px-4 py-3 text-left font-medium text-neutral-700">Notes</th>
+                      <th scope="col" className="px-4 py-3 text-right font-medium text-neutral-700">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y">
@@ -284,16 +287,16 @@ const DailyLog = () => {
                         <td className="px-4 py-3 text-neutral-700">{log.eggsConsumed || 0}</td>
                         <td className="px-4 py-3 text-center">
                           {log.gymAttendance ? (
-                            <span className="text-success-600">✓</span>
+                            <span className="text-success-600" aria-label="Yes">✓</span>
                           ) : (
-                            <span className="text-neutral-400">—</span>
+                            <span className="text-neutral-400" aria-label="No">—</span>
                           )}
                         </td>
                         <td className="px-4 py-3 text-center">
                           {log.creatineIntake ? (
-                            <span className="text-success-600">✓</span>
+                            <span className="text-success-600" aria-label="Yes">✓</span>
                           ) : (
-                            <span className="text-neutral-400">—</span>
+                            <span className="text-neutral-400" aria-label="No">—</span>
                           )}
                         </td>
                         <td className="px-4 py-3 text-center text-neutral-700">
@@ -311,6 +314,7 @@ const DailyLog = () => {
                               size="sm"
                               variant="secondary"
                               onClick={() => handleEdit(log)}
+                              aria-label={`Edit log entry from ${formatDate(log.date)}`}
                             >
                               Edit
                             </Button>
@@ -318,6 +322,7 @@ const DailyLog = () => {
                               size="sm"
                               variant="danger"
                               onClick={() => handleDelete(log._id)}
+                              aria-label={`Delete log entry from ${formatDate(log.date)}`}
                             >
                               Delete
                             </Button>
@@ -331,7 +336,7 @@ const DailyLog = () => {
 
               {/* Pagination */}
               {totalPages > 1 && (
-                <div className="flex items-center justify-between mt-4 pt-4 border-t">
+                <nav aria-label="Pagination" className="flex items-center justify-between mt-4 pt-4 border-t">
                   <p className="text-sm text-neutral-600">
                     Page {currentPage} of {totalPages}
                   </p>
@@ -341,6 +346,7 @@ const DailyLog = () => {
                       variant="secondary"
                       onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
                       disabled={currentPage === 1}
+                      aria-label="Go to previous page"
                     >
                       Previous
                     </Button>
@@ -349,15 +355,16 @@ const DailyLog = () => {
                       variant="secondary"
                       onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
                       disabled={currentPage === totalPages}
+                      aria-label="Go to next page"
                     >
                       Next
                     </Button>
                   </div>
-                </div>
+                </nav>
               )}
             </>
           )}
-        </div>
+        </section>
 
         <ConfirmModal
           isOpen={deleteModal.isOpen}
@@ -368,7 +375,7 @@ const DailyLog = () => {
           confirmText="Delete"
           variant="danger"
         />
-      </div>
+      </main>
     </Layout>
   );
 };

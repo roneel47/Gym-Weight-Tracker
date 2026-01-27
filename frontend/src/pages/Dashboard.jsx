@@ -153,15 +153,15 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      <div className="space-y-8">
+      <main className="space-y-8">
         {/* Header */}
-        <div>
+        <header>
           <h1 className="text-3xl font-bold text-neutral-900">Dashboard</h1>
           <p className="text-neutral-600 text-sm mt-1">Track your progress and view analytics</p>
-        </div>
+        </header>
 
         {/* Key Metrics */}
-        <div className="grid gap-4 grid-cols-2 md:grid-cols-4">
+        <section aria-label="Key metrics" className="grid gap-4 grid-cols-2 md:grid-cols-4">
           <div className="card text-center">
             <p className="text-sm text-neutral-600 mb-1">Current Weight</p>
             <p className="text-2xl font-bold text-primary-600">{dashboardData.currentWeight} kg</p>
@@ -184,10 +184,10 @@ const Dashboard = () => {
             <p className="text-2xl font-bold text-neutral-900">{dashboardData.avgEnergy}/{dashboardData.avgStrength}</p>
             <p className="text-xs text-neutral-500 mt-1">Out of 5</p>
           </div>
-        </div>
+        </section>
 
         {/* Charts Grid */}
-        <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
+        <section aria-label="Progress charts" className="grid gap-6 grid-cols-1 lg:grid-cols-2">
           <WeightProgressionChart data={dashboardData.dailyLogs} />
           <WeeklyGainChart data={dashboardData.weeklyGains} />
           <GymDaysPieChart gymDays={dashboardData.gymDays} totalDays={dashboardData.totalDays} />
@@ -196,11 +196,11 @@ const Dashboard = () => {
             totalDays={dashboardData.totalDays}
             started={dashboardData.creatineStarted}
           />
-        </div>
+        </section>
 
         {/* Projection Section */}
         {projection && (
-          <div className="grid gap-4 md:grid-cols-3">
+          <section aria-label="Weight projection" className="grid gap-4 md:grid-cols-3">
             <div className="card">
               <p className="text-sm text-neutral-600 mb-1">Average Weekly Gain</p>
               <p className="text-2xl font-bold text-primary-600">{projection.avgWeeklyGain} kg</p>
@@ -218,9 +218,9 @@ const Dashboard = () => {
               <p className="text-2xl font-bold text-success-600">{projection.targetDate}</p>
               <p className="text-xs text-neutral-500 mt-1">{projection.weeksToTarget} weeks</p>
             </div>
-          </div>
+          </section>
         )}
-      </div>
+      </main>
     </Layout>
   );
 };
