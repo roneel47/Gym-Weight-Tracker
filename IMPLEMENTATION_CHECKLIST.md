@@ -502,18 +502,20 @@
 **Status:** ✅ Complete - Full workout form with validation, muscle group dropdown, PR tracking
 
 #### 3.6 Frontend - Workout Log Page
-- [ ] Create WorkoutLog page (pages/WorkoutLog.jsx):
-  - [ ] Page header: "Workout Log - [Date] ([Muscle Groups])"
-  - [ ] WorkoutLogForm component
-  - [ ] Workout history table for selected date:
-    - [ ] Columns: Exercise | Sets | Reps | Weight | Volume | PR | Edit/Delete
-    - [ ] Calculate volume per exercise (sets × reps × weight)
-    - [ ] Show total volume for day
-    - [ ] Show PR count for day
-    - [ ] Highlight PR entries with icon/color
-  - [ ] Date selector to view previous workouts
-  - [ ] Filter by muscle group
-  - [ ] Mobile responsive
+- [x] Create WorkoutLog page (pages/WorkoutLog.jsx):
+  - [x] Page header: "Workout Log - [Date] ([Muscle Groups])"
+  - [x] WorkoutLogForm component
+  - [x] Workout history table for selected date:
+    - [x] Columns: Exercise | Sets | Reps | Weight | Volume | PR | Edit/Delete
+    - [x] Calculate volume per exercise (sets × reps × weight)
+    - [x] Show total volume for day
+    - [x] Show PR count for day
+    - [x] Highlight PR entries with icon/color
+  - [x] Date selector to view previous workouts
+  - [x] Filter by muscle group
+  - [x] Mobile responsive
+
+**Status:** ✅ Complete - Full workout log page with date selector, exercise table, volume/PR stats, muscle group filter
 
 #### 3.7 Backend - Analytics Routes (Week 3 Completion)
 - [ ] Create analytics routes (routes/analytics.js):
