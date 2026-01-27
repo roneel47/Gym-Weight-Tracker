@@ -236,23 +236,23 @@
 
 ### Week 2: Frontend Foundation & Authentication
 
-#### 2.1 Frontend - React Setup
-- [ ] Create React app: `npx create-react-app frontend`
-- [ ] Install dependencies:
-  - [ ] React Router (`react-router-dom`)
-  - [ ] Axios (`axios`)
-  - [ ] Recharts (`recharts` for visualizations)
-  - [ ] date-fns (`date-fns` for date formatting)
-  - [ ] React Toastify (`react-toastify` for notifications)
-  - [ ] TailwindCSS (`tailwindcss` for styling)
+-#### 2.1 Frontend - React Setup
+- [x] Create React app: `npx create-react-app frontend`
+- [x] Install dependencies:
+  - [x] React Router (`react-router-dom`)
+  - [x] Axios (`axios`)
+  - [x] Recharts (`recharts` for visualizations)
+  - [x] date-fns (`date-fns` for date formatting)
+  - [x] React Toastify (`react-toastify` for notifications)
+  - [x] TailwindCSS (`tailwindcss` for styling)
   
-- [ ] Configure TailwindCSS:
-  - [ ] Run `npx tailwindcss init`
-  - [ ] Configure tailwind.config.js with design system colors
-  - [ ] Add Tailwind directives to index.css
-  - [ ] Test with sample component
+- [x] Configure TailwindCSS:
+  - [x] Run `npx tailwindcss init`
+  - [x] Configure tailwind.config.js with design system colors
+  - [x] Add Tailwind directives to index.css
+  - [x] Test with sample component
   
-- [ ] Create frontend folder structure:
+- [x] Create frontend folder structure:
   ```
   src/
   ├── App.js
