@@ -71,9 +71,9 @@ const Dashboard = () => {
         ? (validEnergyLogs.reduce((sum, log) => sum + log.energyLevel, 0) / validEnergyLogs.length).toFixed(1)
         : 0;
 
-      const validStrengthLogs = sortedLogs.filter(log => log.strengthLevel);
+      const validStrengthLogs = sortedLogs.filter(log => log.strengthInGym);
       const avgStrength = validStrengthLogs.length > 0
-        ? (validStrengthLogs.reduce((sum, log) => sum + log.strengthLevel, 0) / validStrengthLogs.length).toFixed(1)
+        ? (validStrengthLogs.reduce((sum, log) => sum + log.strengthInGym, 0) / validStrengthLogs.length).toFixed(1)
         : 0;
 
       // Calculate weekly gains

@@ -63,7 +63,7 @@ const MonthlySummary = () => {
       const creatineUsed = monthLogs.some(log => log.creatineTaken);
       const creatineDays = monthLogs.filter(log => log.creatineTaken).length;
 
-      const totalEggs = monthLogs.reduce((sum, log) => sum + (log.eggs || 0), 0);
+      const totalEggs = monthLogs.reduce((sum, log) => sum + (log.eggsConsumed || 0), 0);
       const avgEggs = (totalEggs / monthLogs.length).toFixed(1);
 
       const avgEnergy = monthLogs.filter(log => log.energyLevel).length > 0
@@ -71,9 +71,9 @@ const MonthlySummary = () => {
           monthLogs.filter(log => log.energyLevel).length).toFixed(1)
         : 'N/A';
 
-      const avgStrength = monthLogs.filter(log => log.strengthLevel).length > 0
-        ? (monthLogs.filter(log => log.strengthLevel).reduce((sum, log) => sum + log.strengthLevel, 0) /
-          monthLogs.filter(log => log.strengthLevel).length).toFixed(1)
+      const avgStrength = monthLogs.filter(log => log.strengthInGym).length > 0
+        ? (monthLogs.filter(log => log.strengthInGym).reduce((sum, log) => sum + log.strengthInGym, 0) /
+          monthLogs.filter(log => log.strengthInGym).length).toFixed(1)
         : 'N/A';
 
       // Determine status
@@ -97,7 +97,7 @@ const MonthlySummary = () => {
           month: format(subMonths(currentMonth, 1), 'MMMM yyyy'),
           totalGain: prevTotalGain.toFixed(2),
           gymConsistency: prevGymConsistency,
-          avgEggs: (prevMonthLogs.reduce((sum, log) => sum + (log.eggs || 0), 0) / prevMonthLogs.length).toFixed(1),
+          avgEggs: (prevMonthLogs.reduce((sum, log) => sum + (log.eggsConsumed || 0), 0) / prevMonthLogs.length).toFixed(1),
         };
       }
 

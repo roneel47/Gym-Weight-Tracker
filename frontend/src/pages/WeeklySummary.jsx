@@ -49,7 +49,7 @@ const WeeklySummary = () => {
       const gymDays = weekLogs.filter(log => log.gymAttendance).length;
       const restDays = weekLogs.length - gymDays;
 
-      const totalEggs = weekLogs.reduce((sum, log) => sum + (log.eggs || 0), 0);
+      const totalEggs = weekLogs.reduce((sum, log) => sum + (log.eggsConsumed || 0), 0);
       const avgEggs = (totalEggs / weekLogs.length).toFixed(1);
 
       const creatineDays = weekLogs.filter(log => log.creatineTaken).length;
@@ -60,9 +60,9 @@ const WeeklySummary = () => {
           weekLogs.filter(log => log.energyLevel).length).toFixed(1)
         : 'N/A';
 
-      const avgStrength = weekLogs.filter(log => log.strengthLevel).length > 0
-        ? (weekLogs.filter(log => log.strengthLevel).reduce((sum, log) => sum + log.strengthLevel, 0) /
-          weekLogs.filter(log => log.strengthLevel).length).toFixed(1)
+      const avgStrength = weekLogs.filter(log => log.strengthInGym).length > 0
+        ? (weekLogs.filter(log => log.strengthInGym).reduce((sum, log) => sum + log.strengthInGym, 0) /
+          weekLogs.filter(log => log.strengthInGym).length).toFixed(1)
         : 'N/A';
 
       // Determine status
@@ -274,7 +274,7 @@ const WeeklySummary = () => {
                           {log.gymAttendance ? '✓' : '-'}
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm text-neutral-600">
-                          {log.eggs || '-'}
+                          {log.eggsConsumed ?? '-'}
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm text-neutral-600">
                           {log.creatineTaken ? '✓' : '-'}
@@ -283,7 +283,7 @@ const WeeklySummary = () => {
                           {log.energyLevel || '-'}
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm text-neutral-600">
-                          {log.strengthLevel || '-'}
+                          {log.strengthInGym || '-'}
                         </td>
                       </tr>
                     ))}
