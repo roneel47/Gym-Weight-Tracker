@@ -8,7 +8,12 @@
     "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["gym", "fitness", "tracker", "mern"],
+  "keywords": [
+    "gym",
+    "fitness",
+    "tracker",
+    "mern"
+  ],
   "author": "Gym Tracker Team",
   "license": "MIT",
   "type": "commonjs",
@@ -22,6 +27,7 @@
     "mongoose": "^9.1.5"
   },
   "devDependencies": {
+    "axios": "^1.13.3",
     "eslint": "^9.39.2",
     "nodemon": "^3.1.11",
     "prettier": "^3.8.1"
