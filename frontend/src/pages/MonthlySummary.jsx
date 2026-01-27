@@ -65,6 +65,8 @@ const MonthlySummary = () => {
 
       const totalEggs = monthLogs.reduce((sum, log) => sum + (log.eggsConsumed || 0), 0);
       const avgEggs = (totalEggs / monthLogs.length).toFixed(1);
+      const totalProtein = (totalEggs * 6.1).toFixed(1);
+      const avgProtein = (avgEggs * 6.1).toFixed(1);
 
       const avgEnergy = monthLogs.filter(log => log.energyLevel).length > 0
         ? (monthLogs.filter(log => log.energyLevel).reduce((sum, log) => sum + log.energyLevel, 0) /
@@ -116,6 +118,8 @@ const MonthlySummary = () => {
         creatineDays,
         totalEggs,
         avgEggs,
+        totalProtein,
+        avgProtein,
         avgEnergy,
         avgStrength,
         status,
@@ -259,14 +263,22 @@ const MonthlySummary = () => {
 
               <div className="card">
                 <h3 className="text-lg font-semibold text-neutral-900 mb-4">Nutrition</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                  <div className="p-3 rounded-lg bg-neutral-50 border border-neutral-100">
                     <span className="text-neutral-600">Total Eggs</span>
                     <span className="text-lg font-bold text-neutral-900">{monthlySummary?.totalEggs} eggs</span>
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="p-3 rounded-lg bg-neutral-50 border border-neutral-100">
                     <span className="text-neutral-600">Average/Day</span>
                     <span className="text-lg font-bold text-neutral-900">{monthlySummary?.avgEggs} eggs</span>
+                  </div>
+                  <div className="p-3 rounded-lg bg-neutral-50 border border-neutral-100">
+                    <span className="text-neutral-600">Total Protein</span>
+                    <span className="text-lg font-bold text-neutral-900">{monthlySummary?.totalProtein} g</span>
+                  </div>
+                  <div className="p-3 rounded-lg bg-neutral-50 border border-neutral-100">
+                    <span className="text-neutral-600">Avg Protein/Day</span>
+                    <span className="text-lg font-bold text-neutral-900">{monthlySummary?.avgProtein} g</span>
                   </div>
                 </div>
               </div>

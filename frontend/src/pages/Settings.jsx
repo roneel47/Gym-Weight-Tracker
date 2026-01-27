@@ -18,7 +18,6 @@ const Settings = () => {
     creatineStartDate: '',
     targetWeight: '',
     weightUnit: 'kg',
-    theme: 'light',
     weekStartsOn: 'Monday',
     notifications: {
       enabled: true,
@@ -40,7 +39,6 @@ const Settings = () => {
         creatineStartDate: data.creatineStartDate ? data.creatineStartDate.split('T')[0] : '',
         targetWeight: data.targetWeight || '',
         weightUnit: data.weightUnit || 'kg',
-        theme: data.theme || 'light',
         weekStartsOn: data.weekStartsOn || 'Monday',
         notifications: data.notifications || {
           enabled: true,
@@ -48,27 +46,11 @@ const Settings = () => {
           workoutReminder: true,
         },
       });
-      // Apply theme
-      applyTheme(data.theme || 'light');
     } catch (error) {
       console.error('Failed to load settings:', error);
-      // Load from localStorage as fallback
-      const savedTheme = localStorage.getItem('theme') || 'light';
-      setFormData(prev => ({ ...prev, theme: savedTheme }));
-      applyTheme(savedTheme);
       toast.error('Failed to load settings');
     } finally {
       setLoading(false);
-    }
-  };
-
-  const applyTheme = (themeValue) => {
-    if (themeValue === 'dark') {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
     }
   };
 
@@ -78,10 +60,6 @@ const Settings = () => {
       ...formData,
       [name]: value,
     });
-    // Preview theme change immediately
-    if (name === 'theme') {
-      applyTheme(value);
-    }
   };
 
   const handleNotificationChange = (e) => {
@@ -99,8 +77,6 @@ const Settings = () => {
     try {
       setSaving(true);
       await settingsService.updateSettings(formData);
-      // Apply theme immediately
-      applyTheme(formData.theme);
       toast.success('Settings saved successfully');
       loadSettings(); // Reload to confirm
     } catch (error) {
@@ -191,19 +167,6 @@ const Settings = () => {
               >
                 <option value="kg">Kilograms (kg)</option>
                 <option value="lbs">Pounds (lbs)</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-2">Theme</label>
-              <select
-                name="theme"
-                value={formData.theme}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-              >
-                <option value="light">Light</option>
-                <option value="dark">Dark</option>
               </select>
             </div>
 

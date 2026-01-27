@@ -22,16 +22,6 @@ import CreatineAnalysis from './pages/CreatineAnalysis';
 import Settings from './pages/Settings';
 
 function App() {
-  useEffect(() => {
-    // Load theme from localStorage on app initialization
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    if (savedTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, []);
-
   return (
     <AuthProvider>
       <Router>

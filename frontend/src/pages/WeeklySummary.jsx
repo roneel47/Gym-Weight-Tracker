@@ -51,6 +51,8 @@ const WeeklySummary = () => {
 
       const totalEggs = weekLogs.reduce((sum, log) => sum + (log.eggsConsumed || 0), 0);
       const avgEggs = (totalEggs / weekLogs.length).toFixed(1);
+      const totalProtein = (totalEggs * 6.1).toFixed(1);
+      const avgProtein = (avgEggs * 6.1).toFixed(1);
 
       const creatineDays = weekLogs.filter(log => log.creatineTaken).length;
       const creatinePercentage = ((creatineDays / weekLogs.length) * 100).toFixed(0);
@@ -85,6 +87,8 @@ const WeeklySummary = () => {
         restDays,
         totalEggs,
         avgEggs,
+        totalProtein,
+        avgProtein,
         creatineDays,
         creatinePercentage,
         avgEnergy,
@@ -210,6 +214,14 @@ const WeeklySummary = () => {
                     <span className="text-neutral-600">Average/Day</span>
                     <span className="text-lg font-bold text-neutral-900">{weeklySummary?.avgEggs} eggs</span>
                   </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-neutral-600">Total Protein</span>
+                    <span className="text-lg font-bold text-neutral-900">{weeklySummary?.totalProtein} g</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-neutral-600">Avg Protein/Day</span>
+                    <span className="text-lg font-bold text-neutral-900">{weeklySummary?.avgProtein} g</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -256,6 +268,7 @@ const WeeklySummary = () => {
                       <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Weight</th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Gym</th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Eggs</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Protein (g)</th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Creatine</th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Energy</th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Strength</th>
@@ -275,6 +288,9 @@ const WeeklySummary = () => {
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm text-neutral-600">
                           {log.eggsConsumed ?? '-'}
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-neutral-600">
+                          {log.eggsConsumed != null ? (log.eggsConsumed * 6.1).toFixed(1) : '-'}
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm text-neutral-600">
                           {log.creatineTaken ? '✓' : '-'}
