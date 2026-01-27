@@ -518,36 +518,38 @@
 **Status:** ✅ Complete - Full workout log page with date selector, exercise table, volume/PR stats, muscle group filter
 
 #### 3.7 Backend - Analytics Routes (Week 3 Completion)
-- [ ] Create analytics routes (routes/analytics.js):
-  - [ ] GET /api/analytics/weekly - Weekly summary
-  - [ ] GET /api/analytics/monthly - Monthly summary
-  - [ ] GET /api/analytics/dashboard - Dashboard stats
-  - [ ] GET /api/analytics/creatine - Creatine comparison
+- [x] Create analytics routes (routes/analytics.js):
+  - [x] GET /api/analytics/weekly - Weekly summary
+  - [x] GET /api/analytics/monthly - Monthly summary
+  - [x] GET /api/analytics/dashboard - Dashboard stats
+  - [x] GET /api/analytics/creatine - Creatine comparison
   
-- [ ] Create analyticsController (controllers/analyticsController.js):
-  - [ ] getWeeklySummary(userId, weekStart, weekEnd):
-    - [ ] Fetch all daily logs for week
-    - [ ] Calculate: start weight, end weight, total gain, avg eggs, gym days, creatine days
-    - [ ] Calculate avg energy, avg strength
-    - [ ] Determine weekly status
-    - [ ] Return structured JSON
-  - [ ] getMonthlySummary(userId, month, year):
-    - [ ] Fetch all daily logs for month
-    - [ ] Calculate: start weight, end weight, monthly gain, avg weekly gain
-    - [ ] Calculate gym consistency percentage
-    - [ ] Indicate creatine usage
-    - [ ] Return structured JSON
-  - [ ] getDashboardStats(userId):
-    - [ ] Current weight, 7-day avg, trend
-    - [ ] Gym consistency, total PRs
-    - [ ] Avg energy, avg strength
-    - [ ] Progress toward target (60 kg)
-  - [ ] getCreatineComparison(userId, creatineStartDate):
-    - [ ] Segment data: pre-creatine vs post-creatine
-    - [ ] Calculate weight gain speed for each period
-    - [ ] Calculate avg strength, energy, PR count
-    - [ ] Calculate gym consistency
-    - [ ] Return comparison object
+- [x] Create analyticsController (controllers/analyticsController.js):
+  - [x] getWeeklySummary(userId, weekStart, weekEnd):
+    - [x] Fetch all daily logs for week
+    - [x] Calculate: start weight, end weight, total gain, avg eggs, gym days, creatine days
+    - [x] Calculate avg energy, avg strength
+    - [x] Determine weekly status
+    - [x] Return structured JSON
+  - [x] getMonthlySummary(userId, month, year):
+    - [x] Fetch all daily logs for month
+    - [x] Calculate: start weight, end weight, monthly gain, avg weekly gain
+    - [x] Calculate gym consistency percentage
+    - [x] Indicate creatine usage
+    - [x] Return structured JSON
+  - [x] getDashboardStats(userId):
+    - [x] Current weight, 7-day avg, trend
+    - [x] Gym consistency, total PRs
+    - [x] Avg energy, avg strength
+    - [x] Progress toward target (60 kg)
+  - [x] getCreatineComparison(userId, creatineStartDate):
+    - [x] Segment data: pre-creatine vs post-creatine
+    - [x] Calculate weight gain speed for each period
+    - [x] Calculate avg strength, energy, PR count
+    - [x] Calculate gym consistency
+    - [x] Return comparison object
+
+**Status:** ✅ Complete - All analytics endpoints with weekly/monthly summaries, dashboard stats, creatine comparison
 
 #### 3.8 Testing - Phase 1 MVP Complete
 - [ ] Manual testing of all features:
