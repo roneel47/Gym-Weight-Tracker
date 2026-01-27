@@ -157,32 +157,46 @@
 **Status:** ✅ Complete - Utilities created in Phase 1.2 and integrated in controller
 
 #### 1.7 Backend - Workout Log Model & Routes
-- [ ] Create WorkoutLog model (models/WorkoutLog.js):
-  - [ ] Fields:
-    - [ ] userId (ObjectId ref to User)
-    - [ ] date (Date, required)
-    - [ ] exerciseName (String, required)
-    - [ ] sets (Number, required, min: 1, max: 10)
-    - [ ] reps (Number, required, min: 1, max: 100)
-    - [ ] weightUsed (Number, required, min: 0, max: 500)
-    - [ ] isPR (Boolean, default: false)
-    - [ ] muscleGroup (String, enum: ['Back', 'Biceps', 'Legs', 'Shoulders', 'Chest', 'Triceps'])
-    - [ ] createdAt, updatedAt
-  - [ ] Index on userId + date
-  - [ ] Virtual field: volume (sets × reps × weightUsed)
+- [x] Create WorkoutLog model (models/WorkoutLog.js):
+  - [x] Fields:
+    - [x] userId (ObjectId ref to User)
+    - [x] date (Date, required)
+    - [x] exercises (Array of exercise objects)
+      - [x] exerciseName (String, required)
+      - [x] muscleGroup (String, enum with 10 options)
+      - [x] sets (Number, min: 1, max: 10)
+      - [x] reps (Number, min: 1, max: 100)
+      - [x] weightUsed (Number, min: 0, max: 500 kg)
+      - [x] personalRecord (Boolean, default: false)
+      - [x] notes (String, optional, max: 300)
+    - [x] totalVolume (calculated from exercises)
+    - [x] createdAt, updatedAt (timestamps)
+  - [x] Indexes on userId + date
+  - [x] Virtual field: volume (sum of sets × reps × weight)
+  - [x] Static methods: getPRsByDateRange(), getVolumeByMuscleGroup()
   
-- [ ] Create workout log routes (routes/workoutLogs.js):
-  - [ ] POST /api/workout-logs - Create workout entry
-  - [ ] GET /api/workout-logs - Get all workouts (with filters)
-  - [ ] GET /api/workout-logs/date/:date - Get workouts for specific date
-  - [ ] PUT /api/workout-logs/:id - Update workout
-  - [ ] DELETE /api/workout-logs/:id - Delete workout
+- [x] Create workout log routes (routes/workoutLogs.js):
+  - [x] POST /api/workout-logs - Create workout entry
+  - [x] GET /api/workout-logs - Get all workouts (with pagination)
+  - [x] GET /api/workout-logs/:id - Get single workout
+  - [x] GET /api/workout-logs/stats/prs - Get personal records
+  - [x] GET /api/workout-logs/stats/volume - Get volume by muscle group
+  - [x] POST /api/workout-logs/:id/add-exercise - Add exercise to existing
+  - [x] DELETE /api/workout-logs/:id/exercises/:exerciseIndex - Remove exercise
+  - [x] PUT /api/workout-logs/:id - Update workout
+  - [x] DELETE /api/workout-logs/:id - Delete workout
   
-- [ ] Create workoutLogController (controllers/workoutLogController.js):
-  - [ ] Create: Validate, auto-determine muscle group from exercise
-  - [ ] Get all: Support filters (date range, muscle group, PR only)
-  - [ ] Calculate total volume for each workout
-  - [ ] Count PRs for date range
+- [x] Create workoutLogController (controllers/workoutLogController.js):
+  - [x] Create: Validate exercises, auto-calculate volume
+  - [x] Get all: Support date range filtering, pagination
+  - [x] Get single: Retrieve specific workout with ownership check
+  - [x] Update: Replace exercises array with recalculation
+  - [x] Delete: Remove entire workout
+  - [x] Add/Remove: Single exercise management within workout
+  - [x] Stats: PRs and volume by muscle group
+  - [x] Count PRs for date range
+
+**Status:** ✅ Complete - Full workout tracking with exercise management
 
 #### 1.8 Backend - Server Setup
 - [ ] Create server.js:
