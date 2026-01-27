@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { format } from 'date-fns';
 import Layout from '../components/common/Layout';
 import WorkoutLogForm from '../components/forms/WorkoutLogForm';
+import EditExerciseModal from '../components/forms/EditExerciseModal';
 import { Button } from '../components/common/Button';
 import Loading from '../components/common/Loading';
 import * as workoutLogService from '../services/workoutLogService';
@@ -14,7 +15,7 @@ const WorkoutLog = () => {
   const [workouts, setWorkouts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filterMuscleGroup, setFilterMuscleGroup] = useState('');
-  const [editingExerciseId, setEditingExerciseId] = useState(null);
+  const [editingExercise, setEditingExercise] = useState(null);
 
   useEffect(() => {
     fetchWorkouts();
@@ -24,7 +25,15 @@ const WorkoutLog = () => {
     try {
       setLoading(true);
       const data = await workoutLogService.getWorkoutLogsByDate(selectedDate);
-      setWorkouts(data);
+      // Normalize different response shapes to a consistent array
+      const normalized = Array.isArray(data?.workoutLogs)
+        ? data.workoutLogs
+        : Array.isArray(data?.logs)
+        ? data.logs
+        : Array.isArray(data)
+        ? data
+        : [];
+      setWorkouts(normalized);
     } catch (err) {
       toast.error('Failed to load workouts');
     } finally {
@@ -44,12 +53,47 @@ const WorkoutLog = () => {
     }
   };
 
+  const handleEditExercise = (exercise) => {
+    setEditingExercise(exercise);
+  };
+
+  const handleSaveEdit = async (updatedExercise) => {
+    try {
+      const workout = workouts.find(w => w._id === editingExercise.workoutId);
+      if (!workout) {
+        toast.error('Workout not found');
+        return;
+      }
+
+      // Replace the edited exercise in the exercises array
+      const updatedExercises = [...workout.exercises];
+      updatedExercises[editingExercise.exerciseIndex] = updatedExercise;
+
+      await workoutLogService.updateWorkoutLog(editingExercise.workoutId, {
+        exercises: updatedExercises,
+      });
+
+      toast.success('Exercise updated successfully');
+      setEditingExercise(null);
+      fetchWorkouts();
+    } catch (err) {
+      toast.error('Failed to update exercise');
+    }
+  };
+
   // Calculate total volume for the day
   const calculateTotalVolume = () => {
     let total = 0;
     workouts.forEach((workout) => {
       workout.exercises.forEach((exercise) => {
-        total += exercise.sets * exercise.reps * exercise.weightUsed;
+        // Use setsData if available, otherwise fall back to legacy fields
+        if (exercise.setsData && exercise.setsData.length > 0) {
+          exercise.setsData.forEach((set) => {
+            total += set.reps * set.weight;
+          });
+        } else {
+          total += (exercise.sets || 0) * (exercise.reps || 0) * (exercise.weightUsed || 0);
+        }
       });
     });
     return total.toFixed(2);
@@ -194,7 +238,26 @@ const WorkoutLog = () => {
                 </thead>
                 <tbody className="bg-white divide-y divide-neutral-200">
                   {exercises.map((exercise, idx) => {
-                    const volume = (exercise.sets * exercise.reps * exercise.weightUsed).toFixed(2);
+                    // Calculate volume based on setsData or legacy fields
+                    let volume = 0;
+                    let setsDisplay = '';
+                    let repsDisplay = '';
+                    let weightDisplay = '';
+                    
+                    if (exercise.setsData && exercise.setsData.length > 0) {
+                      // New format with individual set tracking
+                      setsDisplay = exercise.setsData.length;
+                      repsDisplay = exercise.setsData.map(s => s.reps).join(', ');
+                      weightDisplay = exercise.setsData.map(s => s.weight).join(', ');
+                      volume = exercise.setsData.reduce((sum, set) => sum + (set.reps * set.weight), 0);
+                    } else {
+                      // Legacy format
+                      setsDisplay = exercise.sets || 0;
+                      repsDisplay = exercise.reps || 0;
+                      weightDisplay = exercise.weightUsed || 0;
+                      volume = (exercise.sets || 0) * (exercise.reps || 0) * (exercise.weightUsed || 0);
+                    }
+                    
                     return (
                       <tr key={idx} className={exercise.personalRecord ? 'bg-success-50' : ''}>
                         <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-neutral-900">
@@ -204,21 +267,28 @@ const WorkoutLog = () => {
                           {exercise.muscleGroup}
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm text-neutral-600">
-                          {exercise.sets}
+                          {setsDisplay}
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm text-neutral-600">
-                          {exercise.reps}
+                          {repsDisplay}
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm text-neutral-600">
-                          {exercise.weightUsed}
+                          {weightDisplay}
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm font-semibold text-primary-600">
-                          {volume}
+                          {volume.toFixed(2)}
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm">
                           {exercise.personalRecord && <span className="text-success-600">🏆</span>}
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-sm space-x-2">
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            onClick={() => handleEditExercise(exercise)}
+                          >
+                            Edit
+                          </Button>
                           <Button
                             variant="danger"
                             size="sm"
@@ -236,6 +306,15 @@ const WorkoutLog = () => {
           )}
         </div>
       </div>
+
+      {editingExercise && (
+        <EditExerciseModal
+          exercise={editingExercise}
+          workoutId={editingExercise.workoutId}
+          onSave={handleSaveEdit}
+          onCancel={() => setEditingExercise(null)}
+        />
+      )}
     </Layout>
   );
 };

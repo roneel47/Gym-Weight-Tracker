@@ -158,10 +158,10 @@ const DailyLogForm = ({ onSuccess, initialData }) => {
           value={formData.weight}
           onChange={handleChange}
           error={errors.weight}
-          step="0.1"
+          step="0.01"
           min="0"
           max="200"
-          placeholder="75.5"
+          placeholder="75.55"
           required
         />
         <Input

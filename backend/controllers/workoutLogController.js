@@ -56,14 +56,24 @@ exports.getWorkoutLogs = async (req, res) => {
     const { startDate, endDate, limit = 20, page = 1 } = req.query;
     let query = { userId: req.user.userId };
 
-    // Filter by date range if provided
+    const toStartOfDayUTC = (value) => {
+      const d = new Date(value);
+      return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+    };
+
+    const toEndOfDayUTC = (value) => {
+      const d = new Date(value);
+      return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), 23, 59, 59, 999));
+    };
+
+    // Filter by date range if provided (inclusive, UTC-normalized)
     if (startDate || endDate) {
       query.date = {};
       if (startDate) {
-        query.date.$gte = new Date(startDate);
+        query.date.$gte = toStartOfDayUTC(startDate);
       }
       if (endDate) {
-        query.date.$lte = new Date(endDate);
+        query.date.$lte = toEndOfDayUTC(endDate);
       }
     }
 
@@ -315,6 +325,15 @@ exports.removeExercise = async (req, res) => {
     }
 
     workoutLog.exercises.splice(exerciseIndex, 1);
+
+    // If no exercises remain, delete the entire workout log
+    if (workoutLog.exercises.length === 0) {
+      await WorkoutLog.findByIdAndDelete(req.params.id);
+      return res.status(200).json({
+        message: 'Workout log deleted (no exercises remaining)',
+        deleted: true,
+      });
+    }
 
     // Save (pre-save hook will recalculate total volume)
     await workoutLog.save();

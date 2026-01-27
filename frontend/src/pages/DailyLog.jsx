@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { format, parseISO } from 'date-fns';
 import { toast } from 'react-toastify';
 import Layout from '../components/common/Layout';
 import DailyLogForm from '../components/forms/DailyLogForm';
@@ -81,6 +80,23 @@ const DailyLog = () => {
     return 'neutral';
   };
 
+  const getStatusDescription = (status) => {
+    switch (true) {
+      case !status || status === 'No data' || status === 'No Data':
+        return 'Not enough data yet to determine trend.';
+      case status.includes('Going Up'):
+        return 'Healthy weekly gain (≈ 0.2–0.5 kg/week).';
+      case status.includes('Too Slow'):
+        return 'Weight gain is slower than target (< 0.2 kg/week).';
+      case status.includes('Dropping'):
+        return 'Weight is decreasing (≤ 0 kg/week).';
+      case status.includes('Too Fast'):
+        return 'Weight is increasing faster than target (> 0.5 kg/week).';
+      default:
+        return 'Trend information unavailable.';
+    }
+  };
+
   return (
     <Layout>
       <div className="space-y-6">
@@ -113,7 +129,7 @@ const DailyLog = () => {
               <h3 className="text-sm font-medium text-neutral-700 mb-1">Daily Change</h3>
               <p className="text-2xl font-bold text-neutral-900">
                 {calculatedMetrics.dailyChange !== null && calculatedMetrics.dailyChange !== undefined
-                  ? `${calculatedMetrics.dailyChange > 0 ? '+' : ''}${calculatedMetrics.dailyChange.toFixed(1)} kg`
+                  ? `${calculatedMetrics.dailyChange > 0 ? '+' : ''}${calculatedMetrics.dailyChange.toFixed(2)} kg`
                   : 'N/A'}
               </p>
             </div>
@@ -127,7 +143,10 @@ const DailyLog = () => {
             </div>
             <div className="card">
               <h3 className="text-sm font-medium text-neutral-700 mb-1">Status</h3>
-              <StatusBadge variant={getStatusVariant(calculatedMetrics.status)}>
+              <StatusBadge
+                variant={getStatusVariant(calculatedMetrics.status)}
+                title={getStatusDescription(calculatedMetrics.status)}
+              >
                 {calculatedMetrics.status || 'No data'}
               </StatusBadge>
             </div>
@@ -154,6 +173,7 @@ const DailyLog = () => {
                     <tr>
                       <th className="px-4 py-3 text-left font-medium text-neutral-700">Date</th>
                       <th className="px-4 py-3 text-left font-medium text-neutral-700">Weight</th>
+                      <th className="px-4 py-3 text-left font-medium text-neutral-700">Change</th>
                       <th className="px-4 py-3 text-left font-medium text-neutral-700">Eggs</th>
                       <th className="px-4 py-3 text-center font-medium text-neutral-700">Gym</th>
                       <th className="px-4 py-3 text-center font-medium text-neutral-700">Creatine</th>
@@ -171,6 +191,21 @@ const DailyLog = () => {
                         </td>
                         <td className="px-4 py-3 text-neutral-900 font-medium">
                           {formatWeight(log.weight)}
+                        </td>
+                        <td className={(() => {
+                          const change = log.dailyChange;
+                          const base = 'px-4 py-3 font-medium';
+                          if (change === null || change === undefined) return `${base} text-neutral-500`;
+                          if (change > 0) return `${base} text-success-600`;
+                          if (change < 0) return `${base} text-danger-600`;
+                          return `${base} text-neutral-500`;
+                        })()}>
+                          {(() => {
+                            const change = log.dailyChange;
+                            if (change === null || change === undefined) return '—';
+                            const sign = change > 0 ? '+' : '';
+                            return `${sign}${change.toFixed(2)} kg`;
+                          })()}
                         </td>
                         <td className="px-4 py-3 text-neutral-700">{log.eggsConsumed || 0}</td>
                         <td className="px-4 py-3 text-center">

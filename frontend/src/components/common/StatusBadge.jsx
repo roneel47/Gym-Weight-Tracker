@@ -8,12 +8,13 @@ const variants = {
   primary: 'text-primary-700 bg-primary-50',
 };
 
-const StatusBadge = ({ children, variant = 'neutral', className = '' }) => {
+const StatusBadge = ({ children, variant = 'neutral', className = '', title }) => {
   return (
     <span
       className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${
         variants[variant] || variants.neutral
       } ${className}`}
+      title={title}
     >
       {children}
     </span>

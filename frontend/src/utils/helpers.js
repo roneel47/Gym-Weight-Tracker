@@ -1,4 +1,4 @@
-import { format, parseISO, isValid, differenceInDays } from 'date-fns';
+import { format, parseISO, isValid } from 'date-fns';
 
 // Date formatting helpers
 export const formatDate = (date) => {
@@ -30,7 +30,7 @@ export const formatShortDate = (date) => {
 
 // Number formatting helpers
 export const formatWeight = (weight) => {
-  return `${Number(weight).toFixed(1)} kg`;
+  return `${Number(weight).toFixed(2)} kg`;
 };
 
 export const formatVolume = (volume) => {

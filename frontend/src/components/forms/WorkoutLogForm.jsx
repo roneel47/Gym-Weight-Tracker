@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { format } from 'date-fns';
 import Input from '../common/Input';
 import Checkbox from '../common/Checkbox';
+import SetInput from './SetInput';
 import { Button } from '../common/Button';
 import * as workoutLogService from '../../services/workoutLogService';
 import { MUSCLE_GROUPS } from '../../utils/constants';
@@ -12,9 +13,7 @@ const WorkoutLogForm = ({ onSuccess, selectedDate }) => {
     date: selectedDate || format(new Date(), 'yyyy-MM-dd'),
     exerciseName: '',
     muscleGroup: '',
-    sets: '',
-    reps: '',
-    weightUsed: '',
+    setsData: [{ reps: '', weight: '' }],
     personalRecord: false,
     notes: '',
   });
@@ -55,22 +54,17 @@ const WorkoutLogForm = ({ onSuccess, selectedDate }) => {
       newErrors.muscleGroup = 'Muscle group is required';
     }
 
-    if (!formData.sets) {
-      newErrors.sets = 'Sets is required';
-    } else if (formData.sets < 1 || formData.sets > 10) {
-      newErrors.sets = 'Sets must be between 1 and 10';
-    }
-
-    if (!formData.reps) {
-      newErrors.reps = 'Reps is required';
-    } else if (formData.reps < 1 || formData.reps > 100) {
-      newErrors.reps = 'Reps must be between 1 and 100';
-    }
-
-    if (!formData.weightUsed) {
-      newErrors.weightUsed = 'Weight is required';
-    } else if (formData.weightUsed < 0 || formData.weightUsed > 500) {
-      newErrors.weightUsed = 'Weight must be between 0 and 500 kg';
+    if (!formData.setsData || formData.setsData.length === 0) {
+      newErrors.setsData = 'At least one set is required';
+    } else {
+      formData.setsData.forEach((set, index) => {
+        if (!set.reps || set.reps < 1 || set.reps > 100) {
+          newErrors[`set${index}Reps`] = `Set ${index + 1} reps must be between 1 and 100`;
+        }
+        if (!set.weight || set.weight < 0 || set.weight > 500) {
+          newErrors[`set${index}Weight`] = `Set ${index + 1} weight must be between 0 and 500 kg`;
+        }
+      });
     }
 
     setErrors(newErrors);
@@ -91,9 +85,10 @@ const WorkoutLogForm = ({ onSuccess, selectedDate }) => {
       const exercise = {
         exerciseName: formData.exerciseName.trim(),
         muscleGroup: formData.muscleGroup,
-        sets: Number(formData.sets),
-        reps: Number(formData.reps),
-        weightUsed: Number(formData.weightUsed),
+        setsData: formData.setsData.map(set => ({
+          reps: Number(set.reps),
+          weight: Number(set.weight),
+        })),
         personalRecord: formData.personalRecord,
         notes: formData.notes || undefined,
       };
@@ -125,13 +120,32 @@ const WorkoutLogForm = ({ onSuccess, selectedDate }) => {
       date: selectedDate || format(new Date(), 'yyyy-MM-dd'),
       exerciseName: '',
       muscleGroup: '',
-      sets: '',
-      reps: '',
-      weightUsed: '',
+      setsData: [{ reps: '', weight: '' }],
       personalRecord: false,
       notes: '',
     });
     setErrors({});
+  };
+
+  const handleAddSet = () => {
+    setFormData((prev) => ({
+      ...prev,
+      setsData: [...prev.setsData, { reps: '', weight: '' }],
+    }));
+  };
+
+  const handleRemoveSet = (index) => {
+    setFormData((prev) => ({
+      ...prev,
+      setsData: prev.setsData.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleSetsChange = (newSetsData) => {
+    setFormData((prev) => ({
+      ...prev,
+      setsData: newSetsData,
+    }));
   };
 
   return (
@@ -177,44 +191,15 @@ const WorkoutLogForm = ({ onSuccess, selectedDate }) => {
           </select>
           {errors.muscleGroup && <p className="mt-1 text-xs text-danger-600">{errors.muscleGroup}</p>}
         </div>
-        <Input
-          label="Sets"
-          type="number"
-          name="sets"
-          value={formData.sets}
-          onChange={handleChange}
-          error={errors.sets}
-          min="1"
-          max="10"
-          placeholder="3"
-          required
-        />
-        <Input
-          label="Reps"
-          type="number"
-          name="reps"
-          value={formData.reps}
-          onChange={handleChange}
-          error={errors.reps}
-          min="1"
-          max="100"
-          placeholder="12"
-          required
-        />
-        <Input
-          label="Weight Used (kg)"
-          type="number"
-          name="weightUsed"
-          value={formData.weightUsed}
-          onChange={handleChange}
-          error={errors.weightUsed}
-          min="0"
-          max="500"
-          step="0.5"
-          placeholder="50"
-          required
-        />
       </div>
+      
+      <SetInput
+        sets={formData.setsData}
+        onChange={handleSetsChange}
+        onAdd={handleAddSet}
+        onRemove={handleRemoveSet}
+      />
+      {errors.setsData && <p className="text-xs text-danger-600">{errors.setsData}</p>}
       <Checkbox
         label="Personal Record 🏆"
         name="personalRecord"

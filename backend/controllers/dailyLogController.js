@@ -92,13 +92,10 @@ exports.getDailyLogs = async (req, res) => {
     }
 
     res.status(200).json({
-      dailyLogs,
-      pagination: {
-        total,
-        pages: Math.ceil(total / limit),
-        currentPage: parseInt(page),
-        limit: parseInt(limit),
-      },
+      logs: dailyLogs,
+      totalPages: Math.ceil(total / limit),
+      currentPage: parseInt(page),
+      total,
     });
   } catch (error) {
     console.error('Get daily logs error:', error);

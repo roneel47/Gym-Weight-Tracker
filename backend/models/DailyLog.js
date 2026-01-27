@@ -72,6 +72,18 @@ const dailyLogSchema = new mongoose.Schema(
       maxlength: [500, 'Notes cannot exceed 500 characters'],
       trim: true,
     },
+    dailyChange: {
+      type: Number,
+      default: null,
+    },
+    sevenDayAverage: {
+      type: Number,
+      default: null,
+    },
+    status: {
+      type: String,
+      default: 'No data',
+    },
   },
   { timestamps: true }
 );
@@ -82,26 +94,8 @@ dailyLogSchema.index({ userId: 1, date: 1 }, { unique: true });
 // Index for queries sorted by date
 dailyLogSchema.index({ userId: 1, date: -1 });
 
-// Virtual field: daily weight change
-dailyLogSchema.virtual('dailyChange').get(function () {
-  // This will be calculated on demand by controller
-  return null;
-});
-
-// Virtual field: 7-day average weight
-dailyLogSchema.virtual('sevenDayAverage').get(function () {
-  // This will be calculated on demand by controller
-  return null;
-});
-
-// Virtual field: weight status
-dailyLogSchema.virtual('status').get(function () {
-  // This will be calculated on demand by controller
-  return null;
-});
-
 // Pre-save validation: ensure unique date per user
-dailyLogSchema.pre('save', async function (next) {
+dailyLogSchema.pre('save', async function () {
   if (this.isNew) {
     const existing = await mongoose.model('DailyLog').findOne({
       userId: this.userId,
@@ -112,7 +106,6 @@ dailyLogSchema.pre('save', async function (next) {
       throw new Error('Entry already exists for this date');
     }
   }
-  next();
 });
 
 // Instance method to populate calculated fields
@@ -155,6 +148,7 @@ dailyLogSchema.methods.populateCalculatedFields = async function () {
 
   let weeklyGain = null;
   if (weekAgo) {
+    // Use actual weight difference compared to entry at/near 7 days ago
     weeklyGain = this.weight - weekAgo.weight;
   }
 

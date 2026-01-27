@@ -67,9 +67,14 @@ router.post(
       'Abs',
       'Other',
     ]),
-    body('exercises.*.sets', 'Sets must be integer 1-10').isInt({ min: 1, max: 10 }),
-    body('exercises.*.reps', 'Reps must be integer 1-100').isInt({ min: 1, max: 100 }),
-    body('exercises.*.weightUsed', 'Weight must be 0-500 kg').isFloat({ min: 0, max: 500 }),
+    // Support new setsData format or legacy fields
+    body('exercises.*.setsData').optional().isArray({ min: 1 }),
+    body('exercises.*.setsData.*.reps').optional().isInt({ min: 1, max: 100 }),
+    body('exercises.*.setsData.*.weight').optional().isFloat({ min: 0, max: 500 }),
+    // Legacy fields (optional for backward compatibility)
+    body('exercises.*.sets').optional().isInt({ min: 1, max: 10 }),
+    body('exercises.*.reps').optional().isInt({ min: 1, max: 100 }),
+    body('exercises.*.weightUsed').optional().isFloat({ min: 0, max: 500 }),
     body('exercises.*.personalRecord').optional().isBoolean(),
   ],
   createWorkoutLog

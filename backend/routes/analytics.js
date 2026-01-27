@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const analyticsController = require('../controllers/analyticsController');
-const { verifyToken } = require('../middleware/authMiddleware');
+const auth = require('../middleware/auth');
 
 // All routes require authentication
-router.use(verifyToken);
+router.use(auth);
 
 // @route   GET /api/analytics/weekly
 // @desc    Get weekly summary
