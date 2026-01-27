@@ -105,50 +105,56 @@
 **Status:** ✅ Complete - 3 endpoints, full validation, JWT token generation
 
 #### 1.5 Backend - Daily Log Model & Routes
-- [ ] Create DailyLog model (models/DailyLog.js):
-  - [ ] Fields:
-    - [ ] userId (ObjectId ref to User)
-    - [ ] date (Date, required, unique per user)
-    - [ ] weight (Number, required, min: 0, max: 200)
-    - [ ] eggs (Number, required, min: 0, max: 50)
-    - [ ] gymAttendance (Boolean, default: false)
-    - [ ] creatineTaken (Boolean, default: false)
-    - [ ] energyLevel (Number, min: 1, max: 5)
-    - [ ] strengthLevel (Number, min: 1, max: 5)
-    - [ ] notes (String, optional)
-    - [ ] createdAt, updatedAt (timestamps)
-  - [ ] Compound index on userId + date (unique)
-  - [ ] Virtual fields: dailyChange, sevenDayAvg, status
+- [x] Create DailyLog model (models/DailyLog.js):
+  - [x] Fields:
+    - [x] userId (ObjectId ref to User)
+    - [x] date (Date, required, unique per user)
+    - [x] weight (Number, required, min: 0, max: 200)
+    - [x] eggs (Number, required, min: 0, max: 50)
+    - [x] gymAttendance (Boolean, default: false)
+    - [x] creatineTaken (Boolean, default: false)
+    - [x] energyLevel (Number, min: 1, max: 5)
+    - [x] strengthLevel (Number, min: 1, max: 5)
+    - [x] notes (String, optional, max: 500)
+    - [x] createdAt, updatedAt (timestamps)
+  - [x] Compound index on userId + date (unique)
+  - [x] Virtual fields: dailyChange, sevenDayAvg, status
+  - [x] Instance method: populateCalculatedFields()
   
-- [ ] Create daily log routes (routes/dailyLogs.js):
-  - [ ] POST /api/daily-logs - Create new daily entry
-  - [ ] GET /api/daily-logs - Get all entries (with pagination)
-  - [ ] GET /api/daily-logs/:id - Get single entry by ID
-  - [ ] GET /api/daily-logs/date/:date - Get entry by specific date
-  - [ ] PUT /api/daily-logs/:id - Update entry
-  - [ ] DELETE /api/daily-logs/:id - Delete entry
+- [x] Create daily log routes (routes/dailyLogs.js):
+  - [x] POST /api/daily-logs - Create new daily entry
+  - [x] GET /api/daily-logs - Get all entries (with pagination)
+  - [x] GET /api/daily-logs/:id - Get single entry by ID
+  - [x] GET /api/daily-logs/stats/weekly - Get weekly statistics
+  - [x] PUT /api/daily-logs/:id - Update entry
+  - [x] DELETE /api/daily-logs/:id - Delete entry
   
-- [ ] Create dailyLogController (controllers/dailyLogController.js):
-  - [ ] Create entry: Validate, check for duplicate date, save
-  - [ ] Get all entries: Paginate, sort by date desc
-  - [ ] Get single: Find by ID and userId
-  - [ ] Update: Validate, update fields
-  - [ ] Delete: Remove entry
+- [x] Create dailyLogController (controllers/dailyLogController.js):
+  - [x] Create entry: Validate, check for duplicate date, save
+  - [x] Get all entries: Paginate, sort by date desc
+  - [x] Get single: Find by ID and userId
+  - [x] Update: Validate, update fields
+  - [x] Delete: Remove entry
+  - [x] Weekly stats: Aggregate gym days, creatine days, avg energy/strength, weight gain
+
+**Status:** ✅ Complete - Full CRUD with automatic calculations
 
 #### 1.6 Backend - Calculation Utilities
-- [ ] Create calculations.js (utils/calculations.js):
-  - [ ] calculateDailyChange(currentWeight, previousWeight)
-  - [ ] calculateSevenDayAverage(logs) - requires 7 days
-  - [ ] determineStatus(dailyChange, sevenDayAvg)
-  - [ ] calculateWeeklyGain(startWeight, endWeight)
-  - [ ] calculateMonthlyGain(startWeight, endWeight)
-  - [ ] calculateGymConsistency(gymDays, totalDays)
+- [x] Create calculations.js (utils/calculations.js):
+  - [x] calculateDailyChange(currentWeight, previousWeight)
+  - [x] calculateSevenDayAverage(logs) - requires 7 days
+  - [x] determineStatus(dailyChange, sevenDayAvg)
+  - [x] calculateWeeklyGain(startWeight, endWeight)
+  - [x] calculateMonthlyGain(startWeight, endWeight)
+  - [x] calculateGymConsistency(gymDays, totalDays)
   
-- [ ] Add calculation logic to daily log GET endpoints:
-  - [ ] Fetch previous day's weight for dailyChange
-  - [ ] Fetch last 7 days for sevenDayAverage
-  - [ ] Calculate and return status
-  - [ ] Return null if insufficient data
+- [x] Add calculation logic to daily log GET endpoints:
+  - [x] Fetch previous day's weight for dailyChange
+  - [x] Fetch last 7 days for sevenDayAverage
+  - [x] Calculate and return status
+  - [x] Return null if insufficient data
+
+**Status:** ✅ Complete - Utilities created in Phase 1.2 and integrated in controller
 
 #### 1.7 Backend - Workout Log Model & Routes
 - [ ] Create WorkoutLog model (models/WorkoutLog.js):
