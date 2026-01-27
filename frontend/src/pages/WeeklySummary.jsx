@@ -21,7 +21,7 @@ const WeeklySummary = () => {
       const weekEnd = endOfWeek(weekStart);
 
       // Fetch daily logs for the week
-      const response = await dailyLogService.getAllDailyLogs(1, 1000);
+      const response = await dailyLogService.getDailyLogs(1000, 1);
       const allLogs = response.dailyLogs || [];
 
       // Filter logs for current week
