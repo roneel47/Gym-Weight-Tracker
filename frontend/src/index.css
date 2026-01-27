@@ -73,3 +73,118 @@ h3 {
   @apply block text-[13px] font-medium text-neutral-900 mb-sm;
   line-height: 1.4;
 }
+
+/* Animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.4s ease-out;
+}
+
+/* Loading spinner */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Recharts tooltip customization */
+.recharts-tooltip-wrapper {
+  z-index: 1000;
+}
+
+.recharts-default-tooltip {
+  background-color: white !important;
+  border: 1px solid #BDBDBD !important;
+  border-radius: 4px !important;
+  padding: 8px 12px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.recharts-tooltip-label {
+  color: #212121 !important;
+  font-weight: 500 !important;
+  margin-bottom: 4px !important;
+}
+
+.recharts-tooltip-item {
+  color: #757575 !important;
+  font-size: 13px !important;
+}
+
+/* Chart hover effects */
+.recharts-line-dot:hover,
+.recharts-bar-rectangle:hover {
+  filter: brightness(1.1);
+  cursor: pointer;
+}
+
+/* Toast notification styling */
+.Toastify__toast {
+  border-radius: 4px !important;
+  font-family: 'Roboto', sans-serif !important;
+  font-size: 14px !important;
+  padding: 12px 16px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.Toastify__toast--success {
+  background-color: #4CAF50 !important;
+  color: white !important;
+}
+
+.Toastify__toast--error {
+  background-color: #E53935 !important;
+  color: white !important;
+}
+
+.Toastify__toast--info {
+  background-color: #1976D2 !important;
+  color: white !important;
+}
+
+.Toastify__toast--warning {
+  background-color: #FBC02D !important;
+  color: #212121 !important;
+}
+
+.Toastify__progress-bar {
+  background: rgba(255, 255, 255, 0.7) !important;
+}
+
+.Toastify__close-button {
+  color: white !important;
+  opacity: 0.7 !important;
+}
+
+.Toastify__close-button:hover {
+  opacity: 1 !important;
+}

@@ -1,19 +1,30 @@
 import React from 'react';
 
-const Input = ({ label, error, helperText, className = '', as, ...props }) => {
+const Input = React.forwardRef(({ label, error, helperText, className = '', as, ...props }, ref) => {
   const Component = as || 'input';
   
   return (
     <div className="w-full">
-      {label && <label className="block text-sm font-medium text-neutral-700 mb-1">{label}</label>}
+      {label && (
+        <label className="label">
+          {label}
+        </label>
+      )}
       <Component
-        className={`input ${error ? 'border-danger-400 focus:ring-danger-500' : ''} ${className}`}
+        ref={ref}
+        className={`input transition-all duration-200 ${
+          error 
+            ? 'border-danger-600 focus:ring-danger-600 focus:border-danger-600' 
+            : 'hover:border-neutral-400'
+        } ${className}`}
         {...props}
       />
       {helperText && !error && <p className="mt-1 text-xs text-neutral-500">{helperText}</p>}
-      {error && <p className="mt-1 text-xs text-danger-600">{error}</p>}
+      {error && <p className="mt-1 text-xs text-danger-600 animate-fade-in">{error}</p>}
     </div>
   );
-};
+});
+
+Input.displayName = 'Input';
 
 export default Input;

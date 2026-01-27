@@ -94,7 +94,18 @@ function App() {
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
 
-          <ToastContainer position="top-right" theme="light" autoClose={3000} />
+          <ToastContainer 
+            position="top-right" 
+            theme="light" 
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
         </div>
       </Router>
     </AuthProvider>

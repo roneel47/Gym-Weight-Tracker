@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import { format } from 'date-fns';
 import Input from '../common/Input';
@@ -7,6 +7,7 @@ import { Button } from '../common/Button';
 import * as dailyLogService from '../../services/dailyLogService';
 
 const DailyLogForm = ({ onSuccess, initialData }) => {
+  const weightInputRef = useRef(null);
   const [formData, setFormData] = useState({
     date: format(new Date(), 'yyyy-MM-dd'),
     weight: '',
@@ -19,6 +20,13 @@ const DailyLogForm = ({ onSuccess, initialData }) => {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+
+  // Auto-focus first input field on mount
+  useEffect(() => {
+    if (weightInputRef.current) {
+      weightInputRef.current.focus();
+    }
+  }, []);
 
   // Populate form if editing existing log
   useEffect(() => {
@@ -138,8 +146,15 @@ const DailyLogForm = ({ onSuccess, initialData }) => {
     setErrors({});
   };
 
+  const handleKeyDown = (e) => {
+    // Escape key clears the form
+    if (e.key === 'Escape') {
+      handleClear();
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} onKeyDown={handleKeyDown} className="space-y-4">
       <div className="grid gap-4 md:grid-cols-2">
         <Input
           label="Date"
@@ -152,6 +167,7 @@ const DailyLogForm = ({ onSuccess, initialData }) => {
           required
         />
         <Input
+          ref={weightInputRef}
           label="Weight (kg)"
           type="number"
           name="weight"

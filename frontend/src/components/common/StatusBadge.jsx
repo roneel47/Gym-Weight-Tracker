@@ -11,7 +11,7 @@ const variants = {
 const StatusBadge = ({ children, variant = 'neutral', className = '', title }) => {
   return (
     <span
-      className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${
+      className={`inline-flex items-center rounded px-3 py-1 text-xs font-medium transition-all duration-300 animate-fade-in ${
         variants[variant] || variants.neutral
       } ${className}`}
       title={title}

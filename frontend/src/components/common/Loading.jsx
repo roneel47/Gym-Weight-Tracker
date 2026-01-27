@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Loading = ({ label = 'Loading...', className = '' }) => {
-  return (
+const Loading = ({ label = 'Loading...', className = '', fullScreen = false }) => {
+  const spinner = (
     <div className={`flex items-center gap-2 text-sm text-neutral-600 ${className}`}>
       <svg
         className="h-5 w-5 animate-spin text-primary-600"
@@ -16,9 +16,19 @@ const Loading = ({ label = 'Loading...', className = '' }) => {
           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
         />
       </svg>
-      <span>{label}</span>
+      <span className="font-medium">{label}</span>
     </div>
   );
+
+  if (fullScreen) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-90 z-50 animate-fade-in">
+        {spinner}
+      </div>
+    );
+  }
+
+  return spinner;
 };
 
 export default Loading;
