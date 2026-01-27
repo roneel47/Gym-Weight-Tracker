@@ -26,9 +26,9 @@ const CreatineUsageChart = ({ creatineDays = 0, totalDays = 0, started = false }
   ];
 
   return (
-    <div className="w-full h-96 bg-white rounded-lg border border-neutral-200 p-4 flex flex-col items-center justify-center">
+    <div className="w-full bg-white rounded-lg border border-neutral-200 p-4 flex flex-col items-center justify-center">
       <h3 className="text-lg font-semibold text-neutral-900 mb-4 w-full">Creatine Usage</h3>
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height={300}>
         <PieChart>
           <Pie
             data={data}

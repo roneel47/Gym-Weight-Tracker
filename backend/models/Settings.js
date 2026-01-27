@@ -16,7 +16,19 @@ const settingsSchema = new mongoose.Schema(
     creatineStartDate: {
       type: Date,
       default: null,
-      set: (v) => v ? new Date(v.getFullYear(), v.getMonth(), v.getDate()) : null,
+      set: (v) => {
+        if (!v) return null;
+        // If it's a string, parse it
+        if (typeof v === 'string') {
+          const date = new Date(v);
+          return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        }
+        // If it's already a Date object
+        if (v instanceof Date) {
+          return new Date(v.getFullYear(), v.getMonth(), v.getDate());
+        }
+        return null;
+      },
     },
     targetWeight: {
       type: Number,

@@ -35,9 +35,9 @@ const WeeklyGainChart = ({ data }) => {
   }));
 
   return (
-    <div className="w-full h-96 bg-white rounded-lg border border-neutral-200 p-4">
+    <div className="w-full bg-white rounded-lg border border-neutral-200 p-4">
       <h3 className="text-lg font-semibold text-neutral-900 mb-4">Weekly Weight Gain</h3>
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height={300}>
         <BarChart data={chartData} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
           <XAxis dataKey="week" stroke="#6b7280" />
