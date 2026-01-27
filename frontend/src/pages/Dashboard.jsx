@@ -33,9 +33,9 @@ const Dashboard = () => {
     try {
       setLoading(true);
       
-      // Fetch last 90 days of data for comprehensive dashboard
-      const response = await dailyLogService.getDailyLogs(1000, 1);
-      const allLogs = response.dailyLogs || [];
+      // Fetch all daily logs
+      const response = await dailyLogService.getDailyLogs(10000, 1);
+      const allLogs = response.logs || [];
 
       if (allLogs.length === 0) {
         setDashboardData(prev => ({ ...prev }));

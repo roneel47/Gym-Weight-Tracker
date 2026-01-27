@@ -24,8 +24,8 @@ const MonthlySummary = () => {
       const prevMonthEnd = endOfMonth(subMonths(currentMonth, 1));
 
       // Fetch all logs
-      const response = await dailyLogService.getDailyLogs(1000, 1);
-      const allLogs = response.dailyLogs || [];
+      const response = await dailyLogService.getDailyLogs(10000, 1);
+      const allLogs = response.logs || [];
 
       // Filter logs for current month
       const monthLogs = allLogs.filter(log => {
