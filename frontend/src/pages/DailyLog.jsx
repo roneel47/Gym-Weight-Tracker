@@ -194,7 +194,7 @@ const DailyLog = () => {
                 {calculatedMetrics.status || 'No data'}
               </StatusBadge>
             </div>
-          </div>
+          </section>
         )}
 
         {/* Recent Entries Table */}

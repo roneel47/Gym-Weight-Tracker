@@ -854,19 +854,19 @@
   - [x] "Load more" button or infinite scroll
 
 #### 6.3 Performance Optimization
-- [ ] Frontend optimization:
-  - [ ] Code splitting (React.lazy for routes)
-  - [ ] Image optimization (if any images)
-  - [ ] Minimize bundle size
-  - [ ] Remove unused dependencies
-  - [ ] Memoize expensive calculations (useMemo)
+- [x] Frontend optimization:
+  - [x] Code splitting (React.lazy for routes)
+  - [x] Image optimization (if any images)
+  - [x] Minimize bundle size
+  - [x] Remove unused dependencies
+  - [x] Memoize expensive calculations (useMemo)
   
-- [ ] Backend optimization:
-  - [ ] Add database indexes (userId, date, etc.)
+- [x] Backend optimization:
+  - [x] Add database indexes (userId, date, etc.)
   - [ ] Implement caching (Redis - optional)
   - [ ] Optimize queries (select only needed fields)
-  - [ ] Compress API responses (gzip)
-  - [ ] Rate limiting (express-rate-limit)
+  - [x] Compress API responses (gzip)
+  - [x] Rate limiting (express-rate-limit)
   
 - [ ] Monitor performance:
   - [ ] Lighthouse score (target: 90+ performance)
@@ -874,27 +874,27 @@
   - [ ] Database query time
 
 #### 6.4 Accessibility (WCAG 2.1 AA)
-- [ ] Semantic HTML:
-  - [ ] Use <nav>, <main>, <aside>, <footer>
-  - [ ] Use <button> for buttons (not <div>)
-  - [ ] Use <label> for form inputs
+- [x] Semantic HTML:
+  - [x] Use <nav>, <main>, <aside>, <footer>
+  - [x] Use <button> for buttons (not <div>)
+  - [x] Use <label> for form inputs
   
-- [ ] Keyboard navigation:
-  - [ ] All interactive elements focusable
-  - [ ] Visible focus indicators
-  - [ ] Tab order is logical
+- [x] Keyboard navigation:
+  - [x] All interactive elements focusable
+  - [x] Visible focus indicators
+  - [x] Tab order is logical
   - [ ] Skip to main content link
   
-- [ ] Screen reader support:
-  - [ ] Alt text for images/icons
-  - [ ] ARIA labels for form fields
-  - [ ] ARIA live regions for dynamic content
-  - [ ] Form error announcements
+- [x] Screen reader support:
+  - [x] Alt text for images/icons
+  - [x] ARIA labels for form fields
+  - [x] ARIA live regions for dynamic content
+  - [x] Form error announcements
   
-- [ ] Color contrast:
-  - [ ] Test all text (4.5:1 minimum)
-  - [ ] Test UI components (3:1 minimum)
-  - [ ] Don't rely on color alone (use icons + text)
+- [x] Color contrast:
+  - [x] Test all text (4.5:1 minimum)
+  - [x] Test UI components (3:1 minimum)
+  - [x] Don't rely on color alone (use icons + text)
   
 - [ ] Test with screen readers:
   - [ ] NVDA (Windows)
