@@ -354,19 +354,21 @@
 **Status:** ✅ Complete - Full auth UI with validation and toast notifications
 
 #### 2.5 Frontend - Routing & Protected Routes
-- [ ] Set up React Router in App.js:
-  - [ ] BrowserRouter wrapper
-  - [ ] Routes for all pages
-  - [ ] Public routes: /login, /register
-  - [ ] Protected routes: /dashboard, /daily-log, etc.
+- [x] Set up React Router in App.js:
+  - [x] BrowserRouter wrapper
+  - [x] Routes for all pages
+  - [x] Public routes: /login, /register
+  - [x] Protected routes: /dashboard, /daily-log, etc.
   
-- [ ] Create PrivateRoute component:
-  - [ ] Check if user is authenticated
-  - [ ] Redirect to /login if not authenticated
-  - [ ] Wrap all protected pages
+- [x] Create PrivateRoute component:
+  - [x] Check if user is authenticated
+  - [x] Redirect to /login if not authenticated
+  - [x] Wrap all protected pages
   
-- [ ] Test navigation between pages
-- [ ] Test authentication flow (register → login → dashboard)
+- [x] Test navigation between pages
+- [x] Test authentication flow (register → login → dashboard)
+
+**Status:** ✅ Complete - Full routing with auth guards and shared layout
 
 #### 2.6 Frontend - Common Components
 - [ ] Create Navbar component (components/common/Navbar.jsx):
