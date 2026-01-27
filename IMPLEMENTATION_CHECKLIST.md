@@ -471,12 +471,14 @@
 **Status:** ✅ Complete - Full daily log page with metrics, table, edit/delete, pagination
 
 #### 3.4 Frontend - Workout Log Service
-- [ ] Create workoutLogService (services/workoutLogService.js):
-  - [ ] createWorkoutLog(data)
-  - [ ] getAllWorkoutLogs(filters)
-  - [ ] getWorkoutLogsByDate(date)
-  - [ ] updateWorkoutLog(id, data)
-  - [ ] deleteWorkoutLog(id)
+- [x] Create workoutLogService (services/workoutLogService.js):
+  - [x] createWorkoutLog(data)
+  - [x] getAllWorkoutLogs(filters)
+  - [x] getWorkoutLogsByDate(date)
+  - [x] updateWorkoutLog(id, data)
+  - [x] deleteWorkoutLog(id)
+
+**Status:** ✅ Complete - Full CRUD with exercise management and stats endpoints
 
 #### 3.5 Frontend - Workout Log Form Component
 - [ ] Create WorkoutLogForm (components/forms/WorkoutLogForm.jsx):

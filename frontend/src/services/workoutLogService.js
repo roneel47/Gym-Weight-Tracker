@@ -18,6 +18,16 @@ export const getWorkoutLog = async (id) => {
   return response.data;
 };
 
+export const getWorkoutLogsByDate = async (date) => {
+  const response = await api.get('/workout-logs', {
+    params: {
+      startDate: date,
+      endDate: date,
+    },
+  });
+  return response.data;
+};
+
 export const updateWorkoutLog = async (id, logData) => {
   const response = await api.put(`/workout-logs/${id}`, logData);
   return response.data;
