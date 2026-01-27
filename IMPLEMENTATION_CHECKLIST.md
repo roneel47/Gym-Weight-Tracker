@@ -481,23 +481,25 @@
 **Status:** ✅ Complete - Full CRUD with exercise management and stats endpoints
 
 #### 3.5 Frontend - Workout Log Form Component
-- [ ] Create WorkoutLogForm (components/forms/WorkoutLogForm.jsx):
-  - [ ] Input fields:
-    - [ ] Date (auto-populated, read-only)
-    - [ ] Exercise Name (dropdown with gym split exercises)
-    - [ ] Sets (number, 1-10)
-    - [ ] Reps (number, 1-100)
-    - [ ] Weight Used (number, 0-500 kg)
-    - [ ] Personal Record (checkbox)
-  - [ ] Exercise dropdown logic:
-    - [ ] Detect day of week from date
-    - [ ] Show exercises for that day's muscle groups
-    - [ ] Monday: Back & Biceps exercises
-    - [ ] Tuesday: Legs & Shoulders exercises
-    - [ ] etc.
-  - [ ] Real-time validation
-  - [ ] Submit button (calls workoutLogService.createWorkoutLog)
-  - [ ] Clear button
+- [x] Create WorkoutLogForm (components/forms/WorkoutLogForm.jsx):
+  - [x] Input fields:
+    - [x] Date (auto-populated, read-only)
+    - [x] Exercise Name (dropdown with gym split exercises)
+    - [x] Sets (number, 1-10)
+    - [x] Reps (number, 1-100)
+    - [x] Weight Used (number, 0-500 kg)
+    - [x] Personal Record (checkbox)
+  - [x] Exercise dropdown logic:
+    - [x] Detect day of week from date
+    - [x] Show exercises for that day's muscle groups
+    - [x] Monday: Back & Biceps exercises
+    - [x] Tuesday: Legs & Shoulders exercises
+    - [x] etc.
+  - [x] Real-time validation
+  - [x] Submit button (calls workoutLogService.createWorkoutLog)
+  - [x] Clear button
+
+**Status:** ✅ Complete - Full workout form with validation, muscle group dropdown, PR tracking
 
 #### 3.6 Frontend - Workout Log Page
 - [ ] Create WorkoutLog page (pages/WorkoutLog.jsx):
