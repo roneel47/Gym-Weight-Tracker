@@ -50,7 +50,7 @@ const Layout = ({ children }) => {
               <span className="text-sm text-neutral-600 hidden sm:inline">
                 {user?.name || 'User'}
               </span>
-              <Button onClick={handleLogout} size="sm" variant="secondary" className="hidden md:block">
+              <Button onClick={handleLogout} size="sm" variant="danger" className="hidden md:block">
                 Logout
               </Button>
               {/* Mobile menu button */}
@@ -140,7 +140,7 @@ const Layout = ({ children }) => {
                 Settings
               </Link>
               <div className="pt-3 border-t border-neutral-200">
-                <Button onClick={handleLogout} size="sm" variant="secondary" className="w-full">
+                <Button onClick={handleLogout} size="sm" variant="danger" className="w-full">
                   Logout
                 </Button>
               </div>

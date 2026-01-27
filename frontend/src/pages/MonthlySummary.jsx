@@ -264,20 +264,20 @@ const MonthlySummary = () => {
               <div className="card">
                 <h3 className="text-lg font-semibold text-neutral-900 mb-4">Nutrition</h3>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                  <div className="p-3 rounded-lg bg-neutral-50 border border-neutral-100">
-                    <span className="text-neutral-600">Total Eggs</span>
+                  <div className="p-3 rounded-lg bg-neutral-50 border border-neutral-100 flex flex-col">
+                    <span className="text-sm text-neutral-600 mb-1">Total Eggs</span>
                     <span className="text-lg font-bold text-neutral-900">{monthlySummary?.totalEggs} eggs</span>
                   </div>
-                  <div className="p-3 rounded-lg bg-neutral-50 border border-neutral-100">
-                    <span className="text-neutral-600">Average/Day</span>
+                  <div className="p-3 rounded-lg bg-neutral-50 border border-neutral-100 flex flex-col">
+                    <span className="text-sm text-neutral-600 mb-1">Average/Day</span>
                     <span className="text-lg font-bold text-neutral-900">{monthlySummary?.avgEggs} eggs</span>
                   </div>
-                  <div className="p-3 rounded-lg bg-neutral-50 border border-neutral-100">
-                    <span className="text-neutral-600">Total Protein</span>
+                  <div className="p-3 rounded-lg bg-neutral-50 border border-neutral-100 flex flex-col">
+                    <span className="text-sm text-neutral-600 mb-1">Total Protein</span>
                     <span className="text-lg font-bold text-neutral-900">{monthlySummary?.totalProtein} g</span>
                   </div>
-                  <div className="p-3 rounded-lg bg-neutral-50 border border-neutral-100">
-                    <span className="text-neutral-600">Avg Protein/Day</span>
+                  <div className="p-3 rounded-lg bg-neutral-50 border border-neutral-100 flex flex-col">
+                    <span className="text-sm text-neutral-600 mb-1">Avg Protein/Day</span>
                     <span className="text-lg font-bold text-neutral-900">{monthlySummary?.avgProtein} g</span>
                   </div>
                 </div>

@@ -253,13 +253,12 @@ const Settings = () => {
           >
             Reset to Defaults
           </Button>
-          <Button
+          <button
             onClick={handleLogout}
-            variant="danger"
-            className="w-full"
+            className="w-full px-4 py-2 bg-danger-600 text-white rounded-lg hover:bg-danger-700 transition-colors font-medium"
           >
             Logout
-          </Button>
+          </button>
         </div>
       </div>
     </Layout>
