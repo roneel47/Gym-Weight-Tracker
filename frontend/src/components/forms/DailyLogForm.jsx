@@ -42,7 +42,7 @@ const DailyLogForm = ({ onSuccess, initialData }) => {
         notes: initialData.notes || '',
       });
     }
-  }, [initialData]);
+  }, [initialData, formData.date]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;

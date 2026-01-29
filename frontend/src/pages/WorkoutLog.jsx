@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { format } from 'date-fns';
 import Layout from '../components/common/Layout';
@@ -18,11 +18,7 @@ const WorkoutLog = () => {
   const [filterMuscleGroup, setFilterMuscleGroup] = useState('');
   const [editingExercise, setEditingExercise] = useState(null);
 
-  useEffect(() => {
-    fetchWorkouts();
-  }, [selectedDate]);
-
-  const fetchWorkouts = async () => {
+  const fetchWorkouts = useCallback(async () => {
     try {
       setLoading(true);
       const data = await workoutLogService.getWorkoutLogsByDate(selectedDate);
@@ -40,7 +36,11 @@ const WorkoutLog = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedDate]);
+
+  useEffect(() => {
+    fetchWorkouts();
+  }, [fetchWorkouts]);
 
   const handleDeleteExercise = async (workoutId, exerciseIndex) => {
     if (!window.confirm('Are you sure you want to delete this exercise?')) return;
@@ -131,6 +131,17 @@ const WorkoutLog = () => {
     const allExercises = getAllExercises();
     if (!filterMuscleGroup) return allExercises;
     return allExercises.filter((ex) => ex.muscleGroup === filterMuscleGroup);
+  };
+
+  // Export all workouts
+  const handleExportAllWorkouts = async () => {
+    try {
+      const response = await workoutLogService.getWorkoutLogs(10000, 1);
+      return response.logs || response.workoutLogs || response || [];
+    } catch (err) {
+      toast.error('Failed to fetch workouts');
+      return [];
+    }
   };
 
   const handleExport = async () => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { format, startOfWeek, endOfWeek, addWeeks, subWeeks } from 'date-fns';
 import Layout from '../components/common/Layout';
@@ -11,11 +11,7 @@ const WeeklySummary = () => {
   const [weekStart, setWeekStart] = useState(startOfWeek(new Date()));
   const [weeklySummary, setWeeklySummary] = useState(null);
 
-  useEffect(() => {
-    fetchWeeklySummary();
-  }, [weekStart]);
-
-  const fetchWeeklySummary = async () => {
+  const fetchWeeklySummary = useCallback(async () => {
     try {
       setLoading(true);
       const weekEnd = endOfWeek(weekStart);
@@ -102,7 +98,11 @@ const WeeklySummary = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [weekStart]);
+
+  useEffect(() => {
+    fetchWeeklySummary();
+  }, [fetchWeeklySummary]);
 
   const handlePreviousWeek = () => {
     setWeekStart(subWeeks(weekStart, 1));

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import Layout from '../components/common/Layout';
 import DailyLogForm from '../components/forms/DailyLogForm';
 import StatusBadge from '../components/common/StatusBadge';
 import { Button } from '../components/common/Button';
+import Input from '../components/common/Input';
 import Loading from '../components/common/Loading';
 import ConfirmModal from '../components/common/ConfirmModal';
 import * as dailyLogService from '../services/dailyLogService';
@@ -22,11 +23,7 @@ const DailyLog = () => {
   const [deleteModal, setDeleteModal] = useState({ isOpen: false, logId: null });
   const logsPerPage = 10;
 
-  useEffect(() => {
-    fetchLogs();
-  }, [currentPage, startDate, endDate]);
-
-  const fetchLogs = async () => {
+  const fetchLogs = useCallback(async () => {
     try {
       setLoading(true);
       const response = await dailyLogService.getDailyLogs(logsPerPage, currentPage);
@@ -67,7 +64,11 @@ const DailyLog = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage, startDate, endDate]);
+
+  useEffect(() => {
+    fetchLogs();
+  }, [fetchLogs]);
 
   const handleSuccess = () => {
     setEditingLog(null);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { format, startOfMonth, endOfMonth, addMonths, subMonths } from 'date-fns';
 import Layout from '../components/common/Layout';
@@ -12,11 +12,7 @@ const MonthlySummary = () => {
   const [monthlySummary, setMonthlySummary] = useState(null);
   const [previousMonth, setPreviousMonth] = useState(null);
 
-  useEffect(() => {
-    fetchMonthlySummary();
-  }, [currentMonth]);
-
-  const fetchMonthlySummary = async () => {
+  const fetchMonthlySummary = useCallback(async () => {
     try {
       setLoading(true);
       const monthEnd = endOfMonth(currentMonth);
@@ -132,7 +128,11 @@ const MonthlySummary = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentMonth]);
+
+  useEffect(() => {
+    fetchMonthlySummary();
+  }, [fetchMonthlySummary]);
 
   const handlePreviousMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
