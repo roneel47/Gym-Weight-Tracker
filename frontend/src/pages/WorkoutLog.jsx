@@ -146,11 +146,11 @@ const WorkoutLog = () => {
 
   const handleExport = async () => {
     try {
-      const response = await workoutLogService.getAllWorkoutLogs({ limit: 10000 });
-      const workoutData = Array.isArray(response?.workoutLogs) 
-        ? response.workoutLogs 
-        : Array.isArray(response?.logs)
-        ? response.logs
+      const response = await workoutLogService.getWorkoutLogs(10000, 1);
+      const workoutData = Array.isArray(response?.logs) 
+        ? response.logs 
+        : Array.isArray(response?.workoutLogs)
+        ? response.workoutLogs
         : Array.isArray(response)
         ? response
         : [];
