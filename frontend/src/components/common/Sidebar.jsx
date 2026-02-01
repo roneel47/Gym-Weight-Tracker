@@ -8,7 +8,7 @@ const navItems = [
   { to: '/weekly-summary', label: 'Weekly Summary' },
   { to: '/monthly-summary', label: 'Monthly Summary' },
   { to: '/creatine-analysis', label: 'Creatine Analysis' },
-  { to: '/settings', label: 'Settings' },
+  { to: '/settings', label: 'Profile' },
 ];
 
 const Sidebar = () => {

@@ -23,17 +23,17 @@ const MonthlySummary = () => {
       const response = await dailyLogService.getDailyLogs(10000, 1);
       const allLogs = response.logs || [];
 
-      // Filter logs for current month
+      // Filter logs for current month and sort by date
       const monthLogs = allLogs.filter(log => {
         const logDate = new Date(log.date);
         return logDate >= currentMonth && logDate <= monthEnd;
-      });
+      }).sort((a, b) => new Date(a.date) - new Date(b.date));
 
-      // Filter logs for previous month (for comparison)
+      // Filter logs for previous month (for comparison) and sort by date
       const prevMonthLogs = allLogs.filter(log => {
         const logDate = new Date(log.date);
         return logDate >= prevMonthStart && logDate <= prevMonthEnd;
-      });
+      }).sort((a, b) => new Date(a.date) - new Date(b.date));
 
       if (monthLogs.length === 0) {
         setMonthlySummary({
@@ -45,12 +45,16 @@ const MonthlySummary = () => {
         return;
       }
 
-      // Current month calculations
-      const startWeight = monthLogs[0].weight;
-      const endWeight = monthLogs[monthLogs.length - 1].weight;
+      // Current month calculations - Use first and last available log dates
+      const sortedMonthLogs = [...monthLogs].sort((a, b) => new Date(a.date) - new Date(b.date));
+      const startWeight = sortedMonthLogs[0].weight;
+      const endWeight = sortedMonthLogs[sortedMonthLogs.length - 1].weight;
       const totalGain = endWeight - startWeight;
-      const weeksCount = Math.ceil(monthLogs.length / 7);
-      const avgWeeklyGain = (totalGain / weeksCount).toFixed(2);
+      
+      // Calculate average weekly gain based on actual days
+      const daysInPeriod = monthLogs.length;
+      const weeksCount = daysInPeriod / 7;
+      const avgWeeklyGain = weeksCount > 0 ? (totalGain / weeksCount).toFixed(2) : '0.00';
 
       const gymDays = monthLogs.filter(log => log.gymAttendance).length;
       const expectedGymDays = Math.ceil(monthLogs.length / 7) * 4; // Assuming 4 gym days per week
@@ -85,8 +89,9 @@ const MonthlySummary = () => {
       // Previous month calculations
       let prevMonthData = null;
       if (prevMonthLogs.length > 0) {
-        const prevStartWeight = prevMonthLogs[0].weight;
-        const prevEndWeight = prevMonthLogs[prevMonthLogs.length - 1].weight;
+        const sortedPrevLogs = [...prevMonthLogs].sort((a, b) => new Date(a.date) - new Date(b.date));
+        const prevStartWeight = sortedPrevLogs[0].weight;
+        const prevEndWeight = sortedPrevLogs[sortedPrevLogs.length - 1].weight;
         const prevTotalGain = prevEndWeight - prevStartWeight;
         const prevGymDays = prevMonthLogs.filter(log => log.gymAttendance).length;
         const prevGymConsistency = ((prevGymDays / prevMonthLogs.length) * 100).toFixed(0);

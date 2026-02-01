@@ -20,11 +20,11 @@ const WeeklySummary = () => {
       const response = await dailyLogService.getDailyLogs(10000, 1);
       const allLogs = response.logs || [];
 
-      // Filter logs for current week
+      // Filter logs for current week and sort by date
       const weekLogs = allLogs.filter(log => {
         const logDate = new Date(log.date);
         return logDate >= weekStart && logDate <= weekEnd;
-      });
+      }).sort((a, b) => new Date(a.date) - new Date(b.date));
 
       if (weekLogs.length === 0) {
         setWeeklySummary({
@@ -36,9 +36,10 @@ const WeeklySummary = () => {
         return;
       }
 
-      // Calculate metrics
-      const startWeight = weekLogs[0].weight;
-      const endWeight = weekLogs[weekLogs.length - 1].weight;
+      // Calculate metrics - Use first and last available log dates
+      const sortedLogs = [...weekLogs].sort((a, b) => new Date(a.date) - new Date(b.date));
+      const startWeight = sortedLogs[0].weight;
+      const endWeight = sortedLogs[sortedLogs.length - 1].weight;
       const totalGain = endWeight - startWeight;
       const avgWeight = (weekLogs.reduce((sum, log) => sum + log.weight, 0) / weekLogs.length).toFixed(2);
 

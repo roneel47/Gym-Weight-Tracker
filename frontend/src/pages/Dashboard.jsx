@@ -128,7 +128,32 @@ const Dashboard = () => {
     const targetWeight = 60;
     const currentWeight = parseFloat(dashboardData.currentWeight);
     const remainingGain = targetWeight - currentWeight;
-    const weeksToTarget = remainingGain > 0 ? Math.ceil(remainingGain / avgWeeklyGain) : 0;
+    
+    // If already at target or beyond
+    if (remainingGain <= 0) {
+      return {
+        avgWeeklyGain: avgWeeklyGain.toFixed(2),
+        weeksToTarget: 0,
+        targetDate: new Date().toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+        }),
+        reached: true,
+      };
+    }
+    
+    // If losing weight instead of gaining
+    if (avgWeeklyGain <= 0) {
+      return {
+        avgWeeklyGain: avgWeeklyGain.toFixed(2),
+        weeksToTarget: null,
+        targetDate: 'N/A',
+        notGaining: true,
+      };
+    }
+    
+    const weeksToTarget = Math.ceil(remainingGain / avgWeeklyGain);
 
     return {
       avgWeeklyGain: avgWeeklyGain.toFixed(2),
@@ -215,8 +240,22 @@ const Dashboard = () => {
             </div>
             <div className="card">
               <p className="text-sm text-neutral-600 mb-1">Estimated Date to 60 kg</p>
-              <p className="text-2xl font-bold text-success-600">{projection.targetDate}</p>
-              <p className="text-xs text-neutral-500 mt-1">{projection.weeksToTarget} weeks</p>
+              {projection.reached ? (
+                <>
+                  <p className="text-2xl font-bold text-success-600">✓ Target Reached</p>
+                  <p className="text-xs text-neutral-500 mt-1">Congratulations!</p>
+                </>
+              ) : projection.notGaining ? (
+                <>
+                  <p className="text-2xl font-bold text-warning-600">N/A</p>
+                  <p className="text-xs text-neutral-500 mt-1">Not gaining weight</p>
+                </>
+              ) : (
+                <>
+                  <p className="text-2xl font-bold text-success-600">{projection.targetDate}</p>
+                  <p className="text-xs text-neutral-500 mt-1">{projection.weeksToTarget} weeks</p>
+                </>
+              )}
             </div>
           </section>
         )}

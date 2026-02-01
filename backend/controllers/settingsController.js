@@ -6,7 +6,7 @@ const Settings = require('../models/Settings');
  */
 exports.getSettings = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.userId;
 
     let settings = await Settings.findOne({ userId });
 
@@ -35,7 +35,7 @@ exports.getSettings = async (req, res) => {
  */
 exports.updateSettings = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.userId;
     const { creatineStartDate, targetWeight, weightUnit, theme, weekStartsOn, notifications } = req.body;
 
     // Validate inputs
@@ -102,7 +102,7 @@ exports.updateSettings = async (req, res) => {
  */
 exports.resetSettings = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.userId;
 
     await Settings.findOneAndUpdate(
       { userId },

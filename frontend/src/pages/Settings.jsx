@@ -36,10 +36,17 @@ const Settings = () => {
     try {
       setLoading(true);
       const data = await settingsService.getSettings();
-      setSettings(data);
+      
+      // Format creatine start date for input field (YYYY-MM-DD)
+      let creatineDateFormatted = '';
+      if (data.creatineStartDate) {
+        const dateObj = new Date(data.creatineStartDate);
+        creatineDateFormatted = dateObj.toISOString().split('T')[0];
+      }
+      
       setFormData({
-        creatineStartDate: data.creatineStartDate ? data.creatineStartDate.split('T')[0] : '',
-        targetWeight: data.targetWeight || '',
+        creatineStartDate: creatineDateFormatted,
+        targetWeight: data.targetWeight ? data.targetWeight.toString() : '',
         weightUnit: data.weightUnit || 'kg',
         weekStartsOn: data.weekStartsOn || 'Monday',
         notifications: data.notifications || {
@@ -78,7 +85,12 @@ const Settings = () => {
   const handleSave = async () => {
     try {
       setSaving(true);
-      await settingsService.updateSettings(formData);
+      // Convert targetWeight to number if it exists
+      const saveData = {
+        ...formData,
+        targetWeight: formData.targetWeight ? parseFloat(formData.targetWeight) : null,
+      };
+      await settingsService.updateSettings(saveData);
       toast.success('Settings saved successfully');
       loadSettings(); // Reload to confirm
     } catch (error) {
@@ -149,8 +161,8 @@ const Settings = () => {
     <Layout>
       <div className="max-w-2xl space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-neutral-900">Settings</h1>
-          <p className="text-neutral-600 text-sm mt-1">Manage your preferences and account</p>
+          <h1 className="text-3xl font-bold text-neutral-900">Profile</h1>
+          <p className="text-neutral-600 text-sm mt-1">Manage your account details, goals, and preferences</p>
         </div>
 
         {/* Creatine Settings */}

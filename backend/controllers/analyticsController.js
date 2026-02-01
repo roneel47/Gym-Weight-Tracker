@@ -19,7 +19,7 @@ exports.getWeeklySummary = async (req, res) => {
         $gte: new Date(startDate),
         $lte: new Date(endDate),
       },
-    }).sort({ date: 1 });
+    }).sort({ date: 1 }); // Sort by date ascending
 
     if (dailyLogs.length === 0) {
       return res.json({
@@ -35,8 +35,10 @@ exports.getWeeklySummary = async (req, res) => {
       });
     }
 
-    const startWeight = dailyLogs[0].weight;
-    const endWeight = dailyLogs[dailyLogs.length - 1].weight;
+    // Ensure logs are sorted by date - Use first and last log by date
+    const sortedLogs = dailyLogs.sort((a, b) => new Date(a.date) - new Date(b.date));
+    const startWeight = sortedLogs[0].weight;
+    const endWeight = sortedLogs[sortedLogs.length - 1].weight;
     const totalGain = endWeight - startWeight;
 
     const totalEggs = dailyLogs.reduce((sum, log) => sum + log.eggsConsumed, 0);
@@ -103,7 +105,7 @@ exports.getMonthlySummary = async (req, res) => {
         $gte: startDate,
         $lte: endDate,
       },
-    }).sort({ date: 1 });
+    }).sort({ date: 1 }); // Sort by date ascending
 
     if (dailyLogs.length === 0) {
       return res.json({
@@ -117,14 +119,16 @@ exports.getMonthlySummary = async (req, res) => {
       });
     }
 
-    const startWeight = dailyLogs[0].weight;
-    const endWeight = dailyLogs[dailyLogs.length - 1].weight;
+    // Ensure logs are sorted by date - Use first and last log by date
+    const sortedLogs = dailyLogs.sort((a, b) => new Date(a.date) - new Date(b.date));
+    const startWeight = sortedLogs[0].weight;
+    const endWeight = sortedLogs[sortedLogs.length - 1].weight;
     const monthlyGain = endWeight - startWeight;
 
-    // Calculate average weekly gain
+    // Calculate average weekly gain based on actual days
     const daysInMonth = dailyLogs.length;
     const weeksInMonth = daysInMonth / 7;
-    const avgWeeklyGain = monthlyGain / weeksInMonth;
+    const avgWeeklyGain = weeksInMonth > 0 ? monthlyGain / weeksInMonth : 0;
 
     // Calculate gym consistency percentage
     const gymDays = dailyLogs.filter((log) => log.gymAttendance).length;
@@ -162,7 +166,7 @@ exports.getDashboardStats = async (req, res) => {
     const dailyLogs = await DailyLog.find({
       userId: req.user.userId,
       date: { $gte: thirtyDaysAgo },
-    }).sort({ date: -1 });
+    }).sort({ date: -1 }); // Sort by date descending (most recent first)
 
     if (dailyLogs.length === 0) {
       return res.json({
@@ -177,6 +181,7 @@ exports.getDashboardStats = async (req, res) => {
       });
     }
 
+    // Current weight is the most recent log (first in descending order)
     const currentWeight = dailyLogs[0].weight;
 
     // Calculate 7-day average
@@ -249,10 +254,10 @@ exports.getCreatineComparison = async (req, res) => {
 
     const creatineStartDate = new Date(startDate);
 
-    // Get all daily logs
+    // Get all daily logs sorted by date ascending
     const allLogs = await DailyLog.find({
       userId: req.user.userId,
-    }).sort({ date: 1 });
+    }).sort({ date: 1 }); // Sort ascending
 
     // Split into pre and post creatine
     const preCreatine = allLogs.filter((log) => log.date < creatineStartDate);
@@ -270,11 +275,13 @@ exports.getCreatineComparison = async (req, res) => {
         };
       }
 
-      const startWeight = logs[0].weight;
-      const endWeight = logs[logs.length - 1].weight;
+      // Ensure sorted by date
+      const sortedLogs = [...logs].sort((a, b) => new Date(a.date) - new Date(b.date));
+      const startWeight = sortedLogs[0].weight;
+      const endWeight = sortedLogs[sortedLogs.length - 1].weight;
       const totalGain = endWeight - startWeight;
       const daysCount = logs.length;
-      const weightGainSpeed = (totalGain / daysCount) * 7; // Per week
+      const weightGainSpeed = daysCount > 0 ? (totalGain / daysCount) * 7 : 0; // Per week
 
       const totalStrength = logs.reduce((sum, log) => sum + log.strengthInGym, 0);
       const avgStrength = totalStrength / logs.length;
@@ -328,9 +335,15 @@ exports.getCreatineComparison = async (req, res) => {
         prCount: postPRCount,
       },
       improvement: {
-        weightGainSpeed: ((postStats.weightGainSpeed - preStats.weightGainSpeed) / preStats.weightGainSpeed * 100).toFixed(1) + '%',
-        strength: ((postStats.avgStrength - preStats.avgStrength) / preStats.avgStrength * 100).toFixed(1) + '%',
-        energy: ((postStats.avgEnergy - preStats.avgEnergy) / preStats.avgEnergy * 100).toFixed(1) + '%',
+        weightGainSpeed: preStats.weightGainSpeed > 0 
+          ? ((postStats.weightGainSpeed - preStats.weightGainSpeed) / preStats.weightGainSpeed * 100).toFixed(1) + '%'
+          : 'N/A',
+        strength: preStats.avgStrength > 0 
+          ? ((postStats.avgStrength - preStats.avgStrength) / preStats.avgStrength * 100).toFixed(1) + '%'
+          : 'N/A',
+        energy: preStats.avgEnergy > 0 
+          ? ((postStats.avgEnergy - preStats.avgEnergy) / preStats.avgEnergy * 100).toFixed(1) + '%'
+          : 'N/A',
       },
     });
   } catch (err) {

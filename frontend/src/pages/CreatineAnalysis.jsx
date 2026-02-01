@@ -36,8 +36,11 @@ const CreatineAnalysis = () => {
       }
 
       const startDate = new Date(startDateStr);
-      const preCreatineLogs = allLogs.filter(log => new Date(log.date) < startDate);
-      const postCreatineLogs = allLogs.filter(log => new Date(log.date) >= startDate);
+      
+      // Sort logs by date and filter
+      const sortedLogs = allLogs.sort((a, b) => new Date(a.date) - new Date(b.date));
+      const preCreatineLogs = sortedLogs.filter(log => new Date(log.date) < startDate);
+      const postCreatineLogs = sortedLogs.filter(log => new Date(log.date) >= startDate);
 
       if (preCreatineLogs.length < 7) {
         toast.warning('Need at least 7 days of pre-creatine data');
@@ -47,9 +50,10 @@ const CreatineAnalysis = () => {
         toast.warning('Need at least 7 days of post-creatine data for analysis');
       }
 
-      // Calculate pre-creatine metrics
-      const preWeightStart = preCreatineLogs.length > 0 ? preCreatineLogs[0].weight : 0;
-      const preWeightEnd = preCreatineLogs.length > 0 ? preCreatineLogs[preCreatineLogs.length - 1].weight : 0;
+      // Calculate pre-creatine metrics - Ensure sorted by date
+      const sortedPreLogs = [...preCreatineLogs].sort((a, b) => new Date(a.date) - new Date(b.date));
+      const preWeightStart = sortedPreLogs.length > 0 ? sortedPreLogs[0].weight : 0;
+      const preWeightEnd = sortedPreLogs.length > 0 ? sortedPreLogs[sortedPreLogs.length - 1].weight : 0;
       const preGain = preWeightEnd - preWeightStart;
       const preDays = preCreatineLogs.length;
       const preGainRate = preDays > 0 ? (preGain / preDays * 7).toFixed(2) : '0.00'; // per week
@@ -62,9 +66,10 @@ const CreatineAnalysis = () => {
       const preGymDays = preCreatineLogs.filter(log => log.gymAttendance).length;
       const preGymConsistency = preDays > 0 ? ((preGymDays / preDays) * 100).toFixed(0) : 0;
 
-      // Calculate post-creatine metrics
-      const postWeightStart = postCreatineLogs.length > 0 ? postCreatineLogs[0].weight : 0;
-      const postWeightEnd = postCreatineLogs.length > 0 ? postCreatineLogs[postCreatineLogs.length - 1].weight : 0;
+      // Calculate post-creatine metrics - Ensure sorted by date
+      const sortedPostLogs = [...postCreatineLogs].sort((a, b) => new Date(a.date) - new Date(b.date));
+      const postWeightStart = sortedPostLogs.length > 0 ? sortedPostLogs[0].weight : 0;
+      const postWeightEnd = sortedPostLogs.length > 0 ? sortedPostLogs[sortedPostLogs.length - 1].weight : 0;
       const postGain = postWeightEnd - postWeightStart;
       const postDays = postCreatineLogs.length;
       const postGainRate = postDays > 0 ? (postGain / postDays * 7).toFixed(2) : '0.00'; // per week

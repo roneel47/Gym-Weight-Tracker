@@ -42,14 +42,15 @@ const Layout = ({ children }) => {
               <Link className="text-sm text-neutral-700 hover:text-primary-700" to="/creatine-analysis">
                 Creatine Analysis
               </Link>
-              <Link className="text-sm text-neutral-700 hover:text-primary-700" to="/settings">
-                Settings
-              </Link>
             </nav>
             <div className="flex items-center gap-3">
-              <span className="text-sm text-neutral-600 hidden sm:inline">
-                {user?.name || 'User'}
-              </span>
+              <Link
+                to="/settings"
+                className="hidden sm:inline-flex items-center gap-1 rounded-full border border-neutral-200 px-3 py-1.5 text-sm text-neutral-700 hover:bg-neutral-100"
+              >
+                <span>{user?.name || 'Profile'}</span>
+                <span className="text-neutral-400">▾</span>
+              </Link>
               <Button onClick={handleLogout} size="sm" variant="danger" className="hidden md:block">
                 Logout
               </Button>
@@ -92,6 +93,13 @@ const Layout = ({ children }) => {
             <nav className="flex flex-col px-6 py-4 space-y-3">
               <Link
                 className="text-sm text-neutral-700 hover:text-primary-700 py-2"
+                to="/settings"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Profile
+              </Link>
+              <Link
+                className="text-sm text-neutral-700 hover:text-primary-700 py-2"
                 to="/dashboard"
                 onClick={() => setMobileMenuOpen(false)}
               >
@@ -131,13 +139,6 @@ const Layout = ({ children }) => {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Creatine Analysis
-              </Link>
-              <Link
-                className="text-sm text-neutral-700 hover:text-primary-700 py-2"
-                to="/settings"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Settings
               </Link>
               <div className="pt-3 border-t border-neutral-200">
                 <Button onClick={handleLogout} size="sm" variant="danger" className="w-full">
