@@ -133,17 +133,6 @@ const WorkoutLog = () => {
     return allExercises.filter((ex) => ex.muscleGroup === filterMuscleGroup);
   };
 
-  // Export all workouts
-  const handleExportAllWorkouts = async () => {
-    try {
-      const response = await workoutLogService.getWorkoutLogs(10000, 1);
-      return response.logs || response.workoutLogs || response || [];
-    } catch (err) {
-      toast.error('Failed to fetch workouts');
-      return [];
-    }
-  };
-
   const handleExport = async () => {
     try {
       const response = await workoutLogService.getWorkoutLogs(10000, 1);
