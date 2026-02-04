@@ -57,7 +57,6 @@ const MonthlySummary = () => {
       const avgWeeklyGain = weeksCount > 0 ? (totalGain / weeksCount).toFixed(2) : '0.00';
 
       const gymDays = monthLogs.filter(log => log.gymAttendance).length;
-      const expectedGymDays = Math.ceil(monthLogs.length / 7) * 4; // Assuming 4 gym days per week
       const gymConsistency = ((gymDays / monthLogs.length) * 100).toFixed(0);
 
       const creatineUsed = monthLogs.some(log => log.creatineTaken);
@@ -113,7 +112,6 @@ const MonthlySummary = () => {
         weeksCount,
         avgWeeklyGain,
         gymDays,
-        expectedGymDays,
         gymConsistency,
         creatineUsed,
         creatineDays,
@@ -218,9 +216,9 @@ const MonthlySummary = () => {
             <div className="card">
               <h3 className="text-lg font-semibold text-neutral-900 mb-4">Training Consistency</h3>
               <div className="grid gap-4 md:grid-cols-2">
-                <div>
+              <div>
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-neutral-600">Gym Days</span>
+                    <span className="text-neutral-600">Gym Days This Month</span>
                     <span className="text-lg font-bold text-success-600">{monthlySummary?.gymDays}/{monthlySummary?.totalDays}</span>
                   </div>
                   <div className="w-full bg-neutral-200 rounded-full h-2">
@@ -230,20 +228,6 @@ const MonthlySummary = () => {
                     ></div>
                   </div>
                   <p className="text-xs text-neutral-500 mt-1">{monthlySummary?.gymConsistency}% consistency</p>
-                </div>
-                <div>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-neutral-600">Expected vs Actual</span>
-                    <span className="text-lg font-bold text-neutral-900">
-                      {monthlySummary?.gymDays}/{monthlySummary?.expectedGymDays}
-                    </span>
-                  </div>
-                  <div className="w-full bg-neutral-200 rounded-full h-2">
-                    <div
-                      className="bg-primary-500 h-2 rounded-full"
-                      style={{ width: `${Math.min(((monthlySummary?.gymDays || 0) / (monthlySummary?.expectedGymDays || 1)) * 100, 100)}%` }}
-                    ></div>
-                  </div>
                 </div>
               </div>
             </div>
